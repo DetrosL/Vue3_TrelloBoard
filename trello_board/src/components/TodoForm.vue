@@ -1,7 +1,27 @@
 <script setup>
     import { ref, inject } from 'vue'
     
+    const steps_todo    = ref([]);
     const list_todo     = inject('list_todo');
+    const title_step    = ref('');
+    const completed_step= ref(false);
+    const title_todo    = ref('');
+    const desc_todo     = ref('');
+    const tags_todo     = ref('');
+    const color_todo    = ref('');
+
+    function addStep(){
+        const lastIdS = steps_todo.value.length > 0 ? steps_todo.value[steps_todo.value.length - 1].id : 0
+
+        steps_todo.value.push({
+            id: lastIdS + 1,
+            titleS: title_step.value,
+            completedS: completed_step.value,
+        });
+
+        title_step.value = '';
+        completed_step.value = false;
+    }
 
     function newTask(){
         const lastId = list_todo.value.length > 0 ? list_todo.value[list_todo.value.length - 1].id : 0
@@ -9,25 +29,27 @@
         list_todo.value.push({
             id: lastId + 1,
             titleT: title_todo.value,
-            descT: title_todo.value,
-            tagT: completed.value,
-            colorT: completed.value,
-            // stepT: completed.value,
-        })
+            descT: desc_todo.value,
+            tagT: tags_todo.value,
+            colorT: color_todo.value,
+            stepsT: steps_todo,
+        });
     
-        title_todo.value = '';
-        completed.value = '';
-    }    
+        title_todo.value    = '';
+        desc_todo.value     = '';
+        tags_todo.value     = '';
+        color_todo.value    = '#000000';
+        steps_todo.value    = [];
+    }
 </script>
 <template>
-    <div class="modal fade" id="addModal">
+    <div class="modal fade" id="addTaskModal">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+            <div class="modal-content d-flex">
                 <div class="modal-header">
                     <h4 class="modal-title">New Task</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-
+                </div> 
                 <form @submit.prevent="newTask">
                     <label for="title" class="form-label">Title todo:</label>
                     <input 
@@ -35,7 +57,7 @@
                         type="text" 
                         class="form-control inputs" 
                         id="title"
-                        name="title">
+                        name="title" />
 
                     <label for="desc">Description todo:</label>
                     <textarea 
@@ -53,9 +75,13 @@
                         id="tags"
                         name="tags">
                         <option value=""></option>
-                        <option value="a">a</option>
+                        <!-- para cada coluna existente, fazer uma option, dinamicamente -->
+                        <!-- <option value="backlog">Backlog</option>
+                        <option value="inprogress">In Progress</option>
+                        <option value="codereview">Code Review</option>
+                        <option value="readytest">Ready for Testing</option>
+                        <option value="awaiting">Awaiting Realease</option> -->
                     </select>
-                    <br>
                     
                     <label for="colors">Color todo: </label>
                     <input 
@@ -64,46 +90,34 @@
                         class="form-control form-control-color colors" 
                         id="colors"
                         name="colors"
-                        value="#18c00c">
-                    
-                    <label for="step" class="form-label">Step todo:</label>
-                    <input 
-                        v-model="step_todo"    
-                        type="text" 
-                        class="form-control inputs" 
-                        id="step"
-                        name="step">
-                    <button button type="submit" class="btn btn-primary save">Add</button> 
-                </form>
+                        value="#000000" />
+
+                    <label for="step">Steps todo: </label>
+                    <div class="input-group mb-3 inputs">
+                        <div class="input-group-text">
+                            <input 
+                                v-model="completed_step"
+                                type="checkbox" />
+                        </div>
+                        <input 
+                            v-model="title_step"
+                            type="text" 
+                            class="form-control" 
+                            id="step"
+                            name="step"
+                            @keyup.enter="addStep" />
+                            <button class="btn btn-primary" type="button" @click="addStep"><span class="material-symbols-outlined">add</span></button>
+                    </div>
+
+                    <div v-for="step in steps_todo" :key="step.id">
+                        {{ step.titleS }} {{ step.completedS }} <br>
+                    </div>
+
+                    <button button type="submit" class="btn btn-success save">Add</button> 
+                    <!-- {{ list_todo }} -->
+                </form> 
+                             
             </div>
         </div>
     </div>
 </template>
-<style scoped>
-    form {
-        margin-top: 1em;
-        text-align: center;
-        justify-items: center;
-    }
-
-    label {
-        font-size: 17px;
-    }
-
-    .inputs {
-        width: 25em;
-        border: 1px solid #a5a5a5da;
-        margin-bottom: 1.4em;
-    }
-
-    .colors{
-        margin-bottom: 1.4em;
-    }
-
-    .save {
-        padding: 0.6em 1.2em;
-        font-weight: 500;
-        width: 25em;
-        margin-bottom: 1.5em;
-    }
-</style>

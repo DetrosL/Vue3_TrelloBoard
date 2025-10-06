@@ -22,9 +22,12 @@
                     <a class="nav-link" href="javascript:void(0)">Templates</a>
                     </li>
                     <li>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addColModal">
                             ✚ Create
                         </button> 
+                        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTaskModal">
+                            ✚ Create
+                        </button>  -->
                     </li>
                 </ul>
                 <!-- justify-content-end -->
