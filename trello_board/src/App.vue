@@ -1,28 +1,18 @@
 <script setup>
-    // import ThemeSwitcher from './components/ThemeSwitcher.vue';
     import TodoHeader from './components/TodoHeader.vue';
     import TodoForm from './components/TodoForm.vue';
-    import { ref } from 'vue';
+    import TodoFooter from './components/TodoFooter.vue';
+    import { ref, provide } from 'vue'
     
+    const list_todo = ref([]);
+    provide('list_todo', list_todo);
 </script>
 <template>
     <div>
-        <!-- <ThemeSwitcher /> -->
          <TodoHeader />
          <TodoForm />
+         <TodoFooter />
     </div>
 </template>
 <style scoped>
-    .logo {
-        height: 6em;
-        padding: 1.5em;
-        will-change: filter;
-        transition: filter 300ms;
-    }
-    .logo:hover {
-        filter: drop-shadow(0 0 2em #646cffaa);
-    }
-    .logo.vue:hover {
-        filter: drop-shadow(0 0 2em #42b883aa);
-    }
 </style>

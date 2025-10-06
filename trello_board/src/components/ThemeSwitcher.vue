@@ -1,7 +1,7 @@
-<script setup>
+<!-- <script setup>
     import { useDark, useToggle } from '@vueuse/core';
 
-    const isDark = useDark(); // Automatically detects and persists dark mode preference
+    const isDark = useDark();
     const toggleDark = useToggle(isDark);
 </script>
 
@@ -21,4 +21,4 @@
         background-color: white;
         color: #333;
     }
-</style>
+</style> -->
