@@ -40,9 +40,9 @@ label {
 
 .inputs {
     width: 25em;
-    border: 1px solid #a5a5a5da;
+    /* border: 1px solid #a5a5a5da; */
     margin-bottom: 1.4em;
-    border-radius: 7px;
+    /* border-radius: 7px; */
 }
 
 .colors{

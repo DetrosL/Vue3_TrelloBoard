@@ -7,8 +7,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
             <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbar">
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav  justify-content-center">
                     <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0)">Workspaces</a>
                     </li>
@@ -30,20 +29,22 @@
                         </button> 
                     </li>
                 </ul>
-                <!-- justify-content-end -->
-                <form class="d-flex">
-                    <input class="form-control me-2" type="text" placeholder="Search">
-                </form>
-                <a href="">
-                    <span class="material-symbols-outlined text-dark">notifications</span>
-                </a>
-                <a href="">
-                    <span class="material-symbols-outlined text-dark">help</span>
-                </a>
-                <a href="">
-                    <span class="material-symbols-outlined text-dark">account_circle</span>
-                </a>
-            </div>
+                 <ul class="navbar-nav  justify-content-end">
+                    <li class="nav-item">
+                        <form class="d-flex">
+                            <input class="form-control me-2" type="text" placeholder="Search">
+                        </form>                        
+                    </li>
+                    <li class="nav-item"><a href="">
+                        <span class="material-symbols-outlined text-dark">notifications</span>
+                    </a></li>
+                    <li class="nav-item"><a href="">
+                        <span class="material-symbols-outlined text-dark">help</span>
+                    </a></li>
+                    <li class="nav-item"><a href="">
+                        <span class="material-symbols-outlined text-dark">account_circle</span>
+                    </a></li>
+                 </ul>
         </div>
     </nav>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -59,7 +60,7 @@
                     </li>
                 </ul>
             </div>
-            <button type="button" class="btn btn-secondary">Share</button> <!--  data-bs-toggle="modal" data-bs-target="#addModal" -->
+            <button type="button" class="btn btn-secondary">Share</button> <!--  data-bs-toggle="modal" data-bs-target="#shareModal" -->
         </div>
     </nav>
 </template>

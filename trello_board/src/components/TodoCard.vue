@@ -1,8 +1,7 @@
 <script setup>
-    import { ref } from 'vue'
+    import { ref, defineProps } from 'vue'
 
 </script>
 <template>
+    
 </template>
-<style scoped>
-</style>

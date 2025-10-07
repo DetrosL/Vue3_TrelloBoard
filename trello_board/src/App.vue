@@ -1,7 +1,8 @@
 <script setup>
     import TodoHeader from './components/TodoHeader.vue';
+    import TodoBoard from './components/TodoBoard.vue';
     import TodoColumns from './components/TodoColumns.vue';
-    import TodoForm from './components/TodoForm.vue';
+    import TodoTask from './components/TodoTask.vue';
     import TodoFooter from './components/TodoFooter.vue';
     import { ref, provide } from 'vue'
     
@@ -13,8 +14,9 @@
 <template>
     <div>
          <TodoHeader />
-         <TodoForm />
+         <TodoBoard />
          <TodoColumns />
+         <TodoTask />
          <TodoFooter />
     </div>
 </template>
