@@ -20,5 +20,3 @@
          <TodoFooter />
     </div>
 </template>
-<style scoped>
-</style>

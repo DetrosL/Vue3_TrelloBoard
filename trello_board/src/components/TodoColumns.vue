@@ -32,9 +32,7 @@
                         class="form-control inputs" 
                         id="title"
                         name="title" />
-
-                    <div v-for="col in list_columns">{{ col.titleC }}</div>
-
+                    <!-- <div v-for="col in list_columns">{{ col.titleC }}</div> -->
                     <button button type="submit" class="btn btn-success save">Add</button>
                 </form> 
                              
@@ -42,18 +40,3 @@
         </div>
     </div>
 </template>
-<style scoped>
-
-    .colors{
-        margin-bottom: 1.4em;
-        width: 10em;
-        height: 3em;
-    }
-
-    .save {
-        padding: 0.6em 1.2em;
-        font-weight: 500;
-        width: 25em;
-        margin-bottom: 1.5em;
-    }
-</style>

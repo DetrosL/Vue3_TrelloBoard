@@ -1,13 +1,14 @@
 <script setup>
 </script>
 <template>
-    <nav class="navbar navbar-expand-sm navbar-light bg-light"> <!--bg-dark-->
+    <nav class="navbar navbar-expand-sm navbar-light bg-light sticky-top"> <!--bg-dark-->
         <div class="container-fluid">
             <a class="navbar-brand" href="javascript:void(0)"><img src="../assets/freeline.png" alt="freeline" style="width: 40px;"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
             <span class="navbar-toggler-icon"></span>
             </button>
-                <ul class="navbar-nav  justify-content-center">
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav justify-content-center me-auto"><!---->
                     <li class="nav-item">
                     <a class="nav-link" href="javascript:void(0)">Workspaces</a>
                     </li>
@@ -21,15 +22,12 @@
                     <a class="nav-link" href="javascript:void(0)">Templates</a>
                     </li>
                     <li>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addColModal">
-                            ✚ Create C
-                        </button> 
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTaskModal">
-                            ✚ Create T
+                            ✚ Create
                         </button> 
                     </li>
                 </ul>
-                 <ul class="navbar-nav  justify-content-end">
+                 <ul class="navbar-nav "> <!--justify-content-end-->
                     <li class="nav-item">
                         <form class="d-flex">
                             <input class="form-control me-2" type="text" placeholder="Search">
@@ -45,6 +43,7 @@
                         <span class="material-symbols-outlined text-dark">account_circle</span>
                     </a></li>
                  </ul>
+            </div>
         </div>
     </nav>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -54,15 +53,20 @@
                 <span class="navbar-toggler-icon"></span>
                 </button>
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                <ul class="navbar-nav"> 
+                <ul class="navbar-nav me-auto"> 
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0)"><span class="material-symbols-outlined">grid_on</span> Board</a>
+                        <a class="nav-link active-r" href="javascript:void(0)"><span class="material-symbols-outlined">grid_on</span> Board</a>
                     </li>
                 </ul>
+                <button type="button" class="btn btn-secondary">Share</button> <!--  data-bs-toggle="modal" data-bs-target="#shareModal" -->
             </div>
-            <button type="button" class="btn btn-secondary">Share</button> <!--  data-bs-toggle="modal" data-bs-target="#shareModal" -->
         </div>
     </nav>
 </template>
 <style scoped>
+
+    /* .active-r{
+        background-color: cadetblue;
+    } */
+
 </style>
