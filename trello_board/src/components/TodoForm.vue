@@ -1,6 +1,7 @@
 <script setup>
     import { ref, inject } from 'vue'
     
+    const list_columns  = inject('list_columns');
     const steps_todo    = ref([]);
     const list_todo     = inject('list_todo');
     const title_step    = ref('');
@@ -39,7 +40,7 @@
         desc_todo.value     = '';
         tags_todo.value     = '';
         color_todo.value    = '#000000';
-        // steps_todo.value    = [];
+        steps_todo.value    = [];
     }
 </script>
 <template>
@@ -88,7 +89,7 @@
                                         name="tags"
                                     >
                                         <option value=""></option>
-                                        <option value="a">a</option>
+                                        <option v-for="col in list_columns" :key="col.id" :value="col.id">{{ col.titleC }}</option>
                                     </select>
                                 </div>
 
