@@ -63,7 +63,7 @@ label {
     min-width: 19em;
     max-width: 19em;
     min-height: 30em;
-    background-color: #f9fafb;
+    background-color: #F3F4F6;
     border-radius: 10px;
     box-shadow: 0px 4px 4px #00000040;
 }
@@ -78,6 +78,18 @@ label {
     font-size: 22px;
     padding: .5em;
     width: 90%;
+}
+
+.card0 {
+    height: 1.2em;
+}
+
+.cardcolor {
+    width: 2em;
+    height: .5em;
+    background-color: red;
+    margin: .4em;
+    border-radius: 5em;
 }
 
 .qt-col {

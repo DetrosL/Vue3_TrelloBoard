@@ -35,13 +35,16 @@
                 <div class="header-col"><h1 class="title-col">{{ column.titleC }}</h1><h4 class="qt-col">00</h4></div>
                 <div class="card">
                     <div class="card0">
-                        <p>colors</p>
+                        <div class="cardcolor"></div> <!--v-for para cada cor q tiver-->
                     </div>
                     <div class="card1">
                         <p>Lorem ipsum.</p>
                     </div>
                     <div class="card2">
-                        <p>icons</p>|<p>users</p>
+                        <span v-if="true" class="material-symbols-outlined text-dark s_check">check_box</span> <!--steps-->
+                        <span v-if="true" class="material-symbols-outlined text-dark s_comment">mode_comment</span> <!--comments-->
+                        <span v-if="true" class="material-symbols-outlined text-dark s_attach">attachment</span> <!--attachment-->
+                        <span v-if="true" class="material-symbols-outlined text-dark s_user">account_circle</span> <!--users-->
                     </div>
                 </div>
                 <!-- <TodoCard /> -->
@@ -52,17 +55,19 @@
                 </span>
             </button>
 
+
+
         <!-- </draggableComponent,> -->
     </div>
 </template>
 <style scoped>
     .card {
         display: flex;
-        background-color: blueviolet;
+        background-color: #fff;
         margin: 0 1em 1em 1em;
-        color: #f5f5f5;
+        padding: 0.6em;
         padding: 0;
-        border-radius: 5px;
+        border-radius: .5em;
         box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         font-family: 'Arial', sans-serif;
         transition: transform 0.2s, box-shadow 0.2s;
@@ -74,14 +79,22 @@
         box-shadow: 0 5px 10px #00000080;
     }
 
-    .card0 {
-        height: 1.2em;
-        background-color: #4e4a52;
+    .card1 {
+        height: 2em;
+        margin: .4em .4em 0;
     }
 
-    .card1 {
-        background-color: #2a66b4;
+    .card2 {
+        height: 2em;
+        margin: .4em;
+        background-color: #ad9718;
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
     }
+    /* .s_user{
+        align-items: right;
+    } */
 
     .add-col{
         margin: 1.3em 1.3em 1.3em 1.5em;
