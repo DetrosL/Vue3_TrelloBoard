@@ -19,7 +19,7 @@
             <!-- <draggable :list="list_columns" tag="ul" group="taskC"> -->
 
                 <div v-for="(task, i) in column.taskC" :key="i">
-                    <TodoCard :task="list_todo[task]" #item=task />
+                    <TodoCard :task="list_todo[task]"/>
                     <!-- <template >
                         <li>{{ task }}</li>
                     </template> -->
