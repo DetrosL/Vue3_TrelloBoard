@@ -6,13 +6,24 @@
         required: true
     })
 
-    console.log('console2:'+props.task);
+    // const startDrag = (event, item) => {
+    //     console.log(item);
+    //     event.dataTransfer.dropEffect = 'move';
+    //     event.dataTransfer.effectAllowed = 'move';
+    //     event.dataTransfer.setData('idTask', item.id);
+    // }
+
+    // const onDrop = (event, list) => {
+    //     const idTask = event.dataTransfer.getData('idTask')
+    //     const task = list.value.find((task) => task.id == idTask)
+    //     task.list = list
+    // }
 
 </script>
 <template>
-    <div v-if="props.task" class="card">
-        <div class="card0">
-            <div class="card-color"></div> <!--v-for para cada cor q tiver-->
+    <div v-if="props.task" class="card" :style="{borderLeftColor: props.task.tagT[0].colorG }"> <!--draggable="true" @dragstart="startDrag($event, props.task)"-->>
+        <div v-for="tag in props.task.tagT" :key="tag.id" class="card0" >
+            <div class="card-color" :style="{backgroundColor: tag.colorG }"></div>
         </div>
         <div class="card1">
             <p>{{ props.task.titleT }}</p>
@@ -33,11 +44,11 @@
         display: flex;
         background-color: #fff;
         margin: 0 1em 1em 1em;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        box-shadow: 0 2px 4px #0000004d;
         height: 100px;
         width: 265px;
         border-radius: 10px;
-        border-left: 4px solid #FB2C36;
+        border-left: 4px solid;
         padding: 12px 12px 0 16px;
         transition: transform 0.2s, box-shadow 0.2s;
     }	
@@ -47,10 +58,15 @@
         box-shadow: 0 5px 10px #00000080;
     }
 
+    .card0 {
+        display: flex;
+        flex-direction: row;
+        background: #dbd1d1;
+    }
+
     .card-color {
         width: 30px;
         height: 8px;
-        background-color: red;
         margin: 0 0 6px 0;
         border-radius: 10px;
     }
