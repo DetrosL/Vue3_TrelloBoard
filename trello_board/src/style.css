@@ -1,18 +1,8 @@
-/* :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  margin: 0;
-  padding: 0;
-
+:root {
+  font-family: 'Arial', sans-serif;
   color-scheme: light dark;
-  color: #ffffffde;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
+
 /* [data-theme="light"] {
   --primary-color: #ffffff;
   --text-color: #000000de;
@@ -55,9 +45,17 @@ textarea {
     margin-bottom: 1.4em;
 }
 
-.colors{
-    width: 100%;
-    height: 3em;
+.div-tags {
+    text-align: left;
+    display: inline-block;
+}
+
+.tag-color {
+    height: 20px;
+    width: 35px;
+    border-radius: 5px;
+    margin: auto 10px;
+    border: 0px;
 }
 
 .save {
@@ -89,24 +87,13 @@ textarea {
     width: 90%;
 }
 
-.card0 {
-    height: 1.2em;
-}
-
-.card-color {
-    width: 2em;
-    height: .5em;
-    background-color: red;
-    margin: .4em;
-    border-radius: 5em;
-}
-
 .qt-col {
     font-size: 20px;
     padding: .5em;
     border-radius: .3em;
     background-color: #bbbbbb96;
 }
+
 
 .rout {
     text-align: center;

@@ -3,25 +3,30 @@
     
     const list_columns  = inject('list_columns');
     const steps_todo    = ref([]);
-    const tags_todo    = ref([]);
+    const tags_todo     = ref([]);
+    const tag           = ref('');
+    const color         = ref('');
     const list_todo     = inject('list_todo');
     const title_step    = ref('');
     const completed_step= ref(false);
     const title_todo    = ref('');
     const desc_todo     = ref('');
-    const color_todo    = ref('');
 
     function addTag(){
         const idX = tags_todo.value.length;
 
-        steps_todo.value.push({
+        tags_todo.value.push({
             id: idX,
-            titleS: title_step.value,
-            completedS: completed_step.value,
+            titleG: tag.value,
+            colorG: color.value,
         });
 
-        title_step.value = '';
-        completed_step.value = false;
+        tag.value = '';
+        color.value = '#000000';
+    }
+
+    function delTag(tag) {
+        tags_todo.value = tags_todo.value.filter(t => t.id !== tag.id)
     }
 
     function addStep(){
@@ -44,8 +49,7 @@
             id: idX,
             titleT: title_todo.value,
             descT: desc_todo.value,
-            tagT: tags_todo.value,
-            colorT: color_todo.value,
+            tagT: [...tags_todo.value],
             stepsT: [...steps_todo.value],
         });
         list_columns.value[0].taskC.push(
@@ -55,7 +59,6 @@
 
         title_todo.value    = '';
         desc_todo.value     = '';
-        tags_todo.value     = '';
         color_todo.value    = '#000000';
         steps_todo.value    = [];
     }
@@ -101,7 +104,7 @@
                                     <label for="tags">Tag todo:</label>
                                     <div class="input-group">
                                         <select
-                                            v-model="tags_todo"
+                                            v-model="tag"
                                             class="form-select"
                                             id="tags"
                                             name="tags"
@@ -113,7 +116,7 @@
                                         </select>
                                         <div class="input-group-text">
                                             <input
-                                                v-model="color_todo"
+                                                v-model="color"
                                                 type="color"
                                                 class="form-control form-control-color"
                                                 id="colors"
@@ -131,8 +134,8 @@
                                     </div>
                                 </div>
 
-                                <div v-for="tag in tags_todo" :key="tag.id" style="text-align: left;">
-                                    {{ tag.titleG }}
+                                <div v-for="tag in tags_todo" :key="tag.id" class="div-tags" >
+                                    <button class="tag-color" :style="{backgroundColor: tag.colorG }" @click="delTag(tag)" ></button>
                                 </div>
 
                             </div>
@@ -153,8 +156,7 @@
                                             class="form-control"
                                             id="step"
                                             name="step"
-                                        /> <!--
-                                            @keyup.enter="addStep"-->
+                                        />
                                         <button
                                             class="btn btn-primary"
                                             type="button"
