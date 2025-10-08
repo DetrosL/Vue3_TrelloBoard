@@ -5,11 +5,12 @@
     const title_col     = ref('');
 
     function newCol(){
-        const lastId = list_columns.value.length > 0 ? list_columns.value[list_columns.value.length - 1].id : 0
+        const idX = list_columns.value.length;
 
         list_columns.value.push({
-            id: lastId + 1,
+            id: idX,
             titleC: title_col.value,
+            taskC: [],
         });
 
         title_col.value = '';
