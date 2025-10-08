@@ -1,5 +1,5 @@
 <script setup>
-    import draggableComponent from "vuedraggable";
+    import draggable from 'vuedraggable';
     import DragHandle from "./DragHandle.vue";
     import TodoCard from "./TodoCard.vue";
     import { ref, nextTick, inject } from 'vue'
@@ -9,17 +9,31 @@
 </script>
 <template>
     <div class="d-flex items-start overflow-x-auto overflow-y-auto" style="margin-bottom: 70px;">
-        <div v-for="column in list_columns" :key="column.id" class="column"> <!--@drop="onDrop($event, column.taskC)" @dragenter.prevent @dragover.prevent-->
-            <div class="header-col"><h1 class="title-col">{{ column.titleC }}</h1><h4 class="qt-col">{{ column.taskC.length }}</h4></div>
-            <div v-for="(task, i) in column.taskC" :key="i">
-                <TodoCard :task="list_todo[task]"/>
+        
+    <draggable :list="list_columns" tag="ul" group="taskC">
+        <div v-for="column in list_columns" :key="column.id" class="column list-group-item">
+            <div class="header-col">
+                <h1 class="title-col">{{ column.titleC }}</h1>
+                <h4 class="qt-col">{{ column.taskC.length }}</h4>
             </div>
+            <draggable :list="list_columns" tag="ul" group="taskC">
+
+                <div v-for="(task, i) in column.taskC" :key="i">
+                    <!-- <TodoCard :task="list_todo[task]" #item=task /> -->
+                    <template >
+                        <li>{{ task }}</li>
+                    </template>
+                </div>
+
+            </draggable>
         </div>
         <button type="button" class="btn btn-primary add-col text-dark" data-bs-toggle="modal" data-bs-target="#addColModal">
             <span class="material-symbols-outlined">
             add_2
             </span>
         </button>
+
+    </draggable>
     </div>
 </template>
 <style scoped>

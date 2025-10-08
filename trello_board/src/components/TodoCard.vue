@@ -6,22 +6,9 @@
         required: true
     })
 
-    // const startDrag = (event, item) => {
-    //     console.log(item);
-    //     event.dataTransfer.dropEffect = 'move';
-    //     event.dataTransfer.effectAllowed = 'move';
-    //     event.dataTransfer.setData('idTask', item.id);
-    // }
-
-    // const onDrop = (event, list) => {
-    //     const idTask = event.dataTransfer.getData('idTask')
-    //     const task = list.value.find((task) => task.id == idTask)
-    //     task.list = list
-    // }
-
 </script>
-<template>
-    <div v-if="props.task" class="card" :style="{borderLeftColor: props.task.tagT[0].colorG }"> <!--draggable="true" @dragstart="startDrag($event, props.task)"-->>
+<template #item="{ element: task }">
+    <div v-if="props.task" class="card" :style="{borderLeftColor: props.task.tagT[0].colorG }">
         <div v-for="tag in props.task.tagT" :key="tag.id" class="card0" >
             <div class="card-color" :style="{backgroundColor: tag.colorG }"></div>
         </div>
