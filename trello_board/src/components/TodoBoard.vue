@@ -10,30 +10,30 @@
 <template>
     <div class="d-flex items-start overflow-x-auto overflow-y-auto" style="margin-bottom: 70px;">
         
-    <draggable :list="list_columns" tag="ul" group="taskC">
+    <!-- <draggable :list="list_columns" tag="ul" group="taskC"> -->
         <div v-for="column in list_columns" :key="column.id" class="column list-group-item">
             <div class="header-col">
                 <h1 class="title-col">{{ column.titleC }}</h1>
                 <h4 class="qt-col">{{ column.taskC.length }}</h4>
             </div>
-            <draggable :list="list_columns" tag="ul" group="taskC">
+            <!-- <draggable :list="list_columns" tag="ul" group="taskC"> -->
 
                 <div v-for="(task, i) in column.taskC" :key="i">
-                    <!-- <TodoCard :task="list_todo[task]" #item=task /> -->
-                    <template >
+                    <TodoCard :task="list_todo[task]" #item=task />
+                    <!-- <template >
                         <li>{{ task }}</li>
-                    </template>
+                    </template> -->
                 </div>
 
-            </draggable>
+            <!-- </draggable> -->
         </div>
+    <!-- </draggable> -->
         <button type="button" class="btn btn-primary add-col text-dark" data-bs-toggle="modal" data-bs-target="#addColModal">
             <span class="material-symbols-outlined">
             add_2
             </span>
         </button>
 
-    </draggable>
     </div>
 </template>
 <style scoped>
