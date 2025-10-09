@@ -59,7 +59,6 @@
 
         title_todo.value    = '';
         desc_todo.value     = '';
-        color_todo.value    = '#000000';
         steps_todo.value    = [];
     }
 </script>

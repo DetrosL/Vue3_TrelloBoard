@@ -1,33 +1,41 @@
 <script setup>
     import draggable from 'vuedraggable';
-    import DragHandle from "./DragHandle.vue";
     import TodoCard from "./TodoCard.vue";
-    import { ref, nextTick, inject } from 'vue'
+    import { inject } from 'vue'
 
     const list_todo     = inject('list_todo');
     const list_columns  = inject('list_columns');
+
+    function onDragEnd(column) {
+        console.log("updated:", column.titleC, column.taskC)
+    }
+
 </script>
 <template>
     <div class="d-flex items-start overflow-x-auto overflow-y-auto" style="margin-bottom: 70px;">
-        
-    <!-- <draggable :list="list_columns" tag="ul" group="taskC"> -->
         <div v-for="column in list_columns" :key="column.id" class="column list-group-item">
             <div class="header-col">
                 <h1 class="title-col">{{ column.titleC }}</h1>
                 <h4 class="qt-col">{{ column.taskC.length }}</h4>
             </div>
-            <!-- <draggable :list="list_columns" tag="ul" group="taskC"> -->
-
-                <div v-for="(task, i) in column.taskC" :key="i">
+            
+            
+            <draggable
+                v-model="column.taskC"
+                :group="{ name: 'tasks', pull: true, put: true }"
+                item-key="id"
+                @end="onDragEnd(column)"
+                animation="200"
+                ghost-class="ghost"
+            >
+                <!-- <div v-for="(task, i) in column.taskC" :key="i"> -->
+                <template #item="{ element: task }">
                     <TodoCard :task="list_todo[task]"/>
-                    <!-- <template >
-                        <li>{{ task }}</li>
-                    </template> -->
-                </div>
+                </template>
+                <!-- </div> -->
 
-            <!-- </draggable> -->
+            </draggable>
         </div>
-    <!-- </draggable> -->
         <button type="button" class="btn btn-primary add-col text-dark" data-bs-toggle="modal" data-bs-target="#addColModal">
             <span class="material-symbols-outlined">
             add_2
@@ -41,7 +49,6 @@
         margin: 20px 20px 10px 30px;
         min-width: 300px;
         min-height: 500px;
-        /* max-height: 500px; */
         background-color: #f9fafb56;
         border-radius: 10px;
         border: 0;
@@ -52,5 +59,7 @@
         background-color: #f9fafbc9;
     }
 
-
+    .ghost {
+        opacity: 0.1;
+    }
 </style>

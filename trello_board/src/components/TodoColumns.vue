@@ -33,7 +33,6 @@
                         class="form-control inputs" 
                         id="title"
                         name="title" />
-                    <!-- <div v-for="col in list_columns">{{ col.titleC }}</div> -->
                     <button button type="submit" class="btn btn-success save">Add</button>
                 </form> 
                              

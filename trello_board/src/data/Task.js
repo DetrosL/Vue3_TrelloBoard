@@ -8,7 +8,7 @@ export default [
                     ],
             'stepsT': [ {'titleS': 'test1', 'completedS': true}, 
                         {'titleS': 'test2', 'completedS': false},
-                        {'titleS': 'test3', 'completedS': true}
+                        {'titleS': 'test3', 'completedS': true},
                     ],
         }, 
         {
@@ -17,9 +17,10 @@ export default [
             'descT': 'Test',
             'tagT': [   {'id': 0, 'titleG': 'text3', 'colorG': '#319c23ff', },
                     ],
-            'stepsT': [ {'titleS': 'test1', 'completedS': true}, 
-                        {'titleS': 'test2', 'completedS': false},
-                        {'titleS': 'test3', 'completedS': true}
+            'stepsT': [ {'titleS': 'test1', 'completedS': false}, 
+                        {'titleS': 'test2', 'completedS': true},
+                        {'titleS': 'test3', 'completedS': false},
+                        {'titleS': 'test3', 'completedS': false},
                     ],
         }, 
         {
@@ -30,7 +31,6 @@ export default [
                     ],
             'stepsT': [ {'titleS': 'test1', 'completedS': false}, 
                         {'titleS': 'test2', 'completedS': true},
-                        {'titleS': 'test3', 'completedS': false}
                     ],
         },        
         {
@@ -40,9 +40,12 @@ export default [
             'tagT': [   {'id': 0, 'titleG': 'text5', 'colorG': '#150791ff', },
                         {'id': 1, 'titleG': 'text6', 'colorG': '#18aad6ff', },
                     ],
-            'stepsT': [ {'titleS': 'test1', 'completedS': false}, 
+            'stepsT': [ {'titleS': 'test1', 'completedS': true}, 
                         {'titleS': 'test2', 'completedS': true},
-                        {'titleS': 'test3', 'completedS': false}
+                        {'titleS': 'test3', 'completedS': true},
+                        {'titleS': 'test3', 'completedS': true},
+                        {'titleS': 'test3', 'completedS': true},
+                        {'titleS': 'test3', 'completedS': true},
                     ],
         }
     ];
