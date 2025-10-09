@@ -61,6 +61,11 @@
         desc_todo.value     = '';
         steps_todo.value    = [];
     }
+
+    function editTask(id){
+        
+    }
+
 </script>
 <template>
     <div class="modal fade" id="addTaskModal">
