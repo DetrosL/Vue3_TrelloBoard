@@ -21,11 +21,11 @@
                 <a v-if="props.task.stepsT.length > 0" class="icons" href=""><!--steps-->
                     <span class="material-symbols-outlined text-dark s_check">check_box</span> {{ props.task.stepsT.filter(item => item === true).length }}/{{ props.task.stepsT.length }} 
                 </a>
-                <a v-if="false" class="icons"  href=""><!--props.task.comments-->
-                    <span class="material-symbols-outlined text-dark s_comment">mode_comment</span>
+                <a v-if="props.task.commentsT.length > 0" class="icons"  href=""><!--props.task.comments-->
+                    <span class="material-symbols-outlined text-dark s_comment">mode_comment</span> {{ props.task.commentsT.length }}
                 </a>
-                <a v-if="false" class="icons"  href=""><!--props.task.attach-->
-                    <span class="material-symbols-outlined text-dark s_attach">attachment</span>
+                <a v-if="props.task.attachT.length > 0" class="icons"  href=""><!--props.task.attach-->
+                    <span class="material-symbols-outlined text-dark s_attach">attachment</span> {{ props.task.attachT.length }}
                 </a>
             </div>
             <div class="card2-2">
@@ -77,7 +77,7 @@
 
     .card2 {
         height: 2em;
-        background-color: #56b3657c;
+        /* background-color: #56b3657c; */
         display: flex;
     }
 
@@ -87,24 +87,33 @@
     }
 
     .card2-2 {
-        background: rgb(131, 158, 231);
+        /* background: rgb(131, 158, 231); */
         text-align: right;
+        display: flex;
         width: 30%;
+    }
+
+    a {
+        display: flex;
     }
 
     .icons {
         text-decoration: none;
         color: #000;
         font-size: 16px;
+        margin: auto 0;
+    }
+
+    .icons:not(:first-child) {
         margin: auto 5px;
     }
 
     .icons > span {
-        /* height: 100%; */
-        padding: 5px 5px 0 0;
+        margin: auto 0;
     }
 
-    p {
-        display: inline-block;
+    .icons > span:not(:first-child) {
+        margin: auto 2px;
     }
+
 </style>

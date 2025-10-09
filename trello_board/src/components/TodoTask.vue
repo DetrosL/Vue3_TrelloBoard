@@ -11,6 +11,9 @@
     const completed_step= ref(false);
     const title_todo    = ref('');
     const desc_todo     = ref('');
+    const is_edit       = ref(false);
+    const comments_todo = ref([]);
+    const attach_todo   = ref([]);
 
     function addTag(){
         const idX = tags_todo.value.length;
@@ -51,6 +54,8 @@
             descT: desc_todo.value,
             tagT: [...tags_todo.value],
             stepsT: [...steps_todo.value],
+            commentsT: [],
+            attachT: [],
         });
         list_columns.value[0].taskC.push(
             idX
@@ -63,9 +68,23 @@
     }
 
     function editTask(id){
-        
+        is_edit.value = true;
+        // pegar dados?
     }
 
+    function saveEdit(id){
+        list_todo.value.push({
+            id: id,
+            titleT: title_todo.value,
+            descT: desc_todo.value,
+            tagT: [...tags_todo.value],
+            stepsT: [...steps_todo.value],
+            commentsT: [...comments_todo.value],
+            attachT: [...attach_todo.value],
+        });
+
+        // fechar modal
+    }
 </script>
 <template>
     <div class="modal fade" id="addTaskModal">

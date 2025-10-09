@@ -35,7 +35,6 @@
                         name="title" />
                     <button button type="submit" class="btn btn-success save">Add</button>
                 </form> 
-                             
             </div>
         </div>
     </div>
