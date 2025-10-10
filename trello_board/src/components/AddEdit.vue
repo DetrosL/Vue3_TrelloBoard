@@ -15,10 +15,10 @@
     const comments_todo = ref([]);
     const attach_todo   = ref([]);
 
-    // const props = defineProps({
-    //     showModal: Boolean,
-    //     isEdit: Boolean,
-    // });
+    const props = defineProps({
+        showModal: Boolean,
+        isEdit: Boolean,
+    });
 
     // console.log(props.showModal+"<- modal")
 

@@ -1,8 +1,8 @@
 <script setup>
     import draggable from 'vuedraggable';
-    import TodoColumns from "./TodoColumns.vue";
-    import TodoTask from "./TodoTask.vue";
-    import TodoCard from "./TodoCard.vue";
+    import AddColumns from "./AddColumns.vue";
+    import AddEdit from "./AddEdit.vue";
+    import Card from "./Card.vue";
     import { inject, ref } from 'vue';
 
     const list_todo     = inject('list_todo');
@@ -13,8 +13,8 @@
     <button type="button" class="btn btn-primary" @click="openTask">
         ✚ Create
     </button> 
-    <TodoColumns />
-    <TodoTask :showModal="isOpened" @close-task="closeTask" name="task-modal"/>
+    <AddColumns />
+    <AddEdit :showModal="isOpened" @close-task="closeTask" name="task-modal"/>
     <div class="d-flex items-start overflow-x-auto overflow-y-auto" style="margin-bottom: 70px;">
         <div v-for="column in list_columns" :key="column.id" class="column list-group-item">
             <div class="header-col">
@@ -28,7 +28,7 @@
                 animation="200"
                 ghost-class="ghost">
                 <template #item="{ element: task }">
-                    <TodoCard :task="list_todo[task]"/>
+                    <Card :task="list_todo[task]"/>
                 </template>
             </draggable>
         </div>

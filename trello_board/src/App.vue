@@ -1,9 +1,7 @@
 <script setup>
-    import TodoHeader from './components/TodoHeader.vue';
-    import TodoBoard from './components/TodoBoard.vue';
-    import TodoColumns from './components/TodoColumns.vue';
-    import TodoTask from './components/TodoTask.vue';
-    import TodoFooter from './components/TodoFooter.vue';
+    import HeaderT from './components/HeaderT.vue';
+    import Board from './components/Board.vue';
+    import FooterT from './components/FooterT.vue';
     import task from "./data/Task";
     import cols from "./data/Cols";
     import { ref, provide } from 'vue'
@@ -16,8 +14,8 @@
 </script>
 <template>
     <div>
-         <TodoHeader />
-         <TodoBoard />
-         <TodoFooter />
+         <HeaderT />
+         <Board />
+         <FooterT />
     </div>
 </template>
