@@ -1,5 +1,6 @@
 <script setup>
     import { ref, inject, defineProps } from 'vue'
+    import {onClickOutside} from '@vueuse/core'
     
     const list_columns  = inject('list_columns');
     const steps_todo    = ref([]);
@@ -11,16 +12,20 @@
     const completed_step= ref(false);
     const title_todo    = ref('');
     const desc_todo     = ref('');
-    const is_edit       = ref(false);
+    // const is_edit       = ref(false);
     const comments_todo = ref([]);
     const attach_todo   = ref([]);
 
     const props = defineProps({
-        isOpen: Boolean,
+        showModal: Boolean,
+        isEdit: Boolean,
     });
-    const emit = defineEmits(["modal-close"]);
+
+    console.log(props.showModal+"<- modal")
+
+    const emit = defineEmits(["close-task"]);
     const target = ref(null)
-    onClickOutside(target, ()=>emit('modal-close'))
+    onClickOutside(target, ()=>emit('close-task'))
 
     function addTag(){
         const idX = tags_todo.value.length;
@@ -75,8 +80,19 @@
     }
 
     function editTask(id){
-        is_edit.value = true;
+        // isEdit.value = true;
         // pegar dados?
+
+        let todo = list_todo.value[id]
+
+        let title_todo      = todo.titleT.value
+        let desc_todo       = todo.descT.value
+        let tags_todo       = todo.tagT.value
+        let steps_todo      = todo.stepsT.value
+        let comments_todo   = todo.commentsT.value
+        let attach_todo     = todo.attachT.value
+
+        // process
     }
 
     function saveEdit(id){
@@ -89,17 +105,15 @@
             commentsT: [...comments_todo.value],
             attachT: [...attach_todo.value],
         });
-                            // na posição do id, 0?
-        list_todo.splice(id, 0, newItem); // Inserts at a specific index
     }
 </script>
 <template>
-    <div class="modal fade" v-if="showModal">
+    <div class="modal fade" v-if="props.showModal">
         <div class="modal-dialog modal-dialog-centered modal-total">
             <div class="modal-content d-flex">
                 <div class="modal-header">
                     <h4 class="modal-title">New Task</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" @click.stop="emit('modal-close')"></button>
                 </div> <!--header-->
 
                 <div class="modal-body">

@@ -1,31 +1,24 @@
 <script setup>
     import { defineProps, inject, ref } from 'vue'
-    
-    const list_todo     = inject('list_todo');
+    // const list_todo     = inject('list_todo');
+    let isOpened        = false;
+
+    const openTask = () => {
+        console.log('teste2');
+        isOpened = true;
+    };
+    const closeTask = () => {
+        isOpened = false;
+    };
 
     const props = defineProps({
         task: Object,
         required: true
     })
 
-    function editTask(id){
-        let todo = list_todo.value[id]
-
-        let titleT = todo.titleT.value
-        let descT = todo.descT.value
-        let tagT = todo.tagT.value
-        let stepsT = todo.stepsT.value
-        let commentsT = todo.commentsT.value
-        let attachT = todo.attachT.value
-
-        // process
-        
-
-    }
-
 </script>
 <template>
-    <div v-if="props.task" class="card" :style="{borderLeftColor: props.task.tagT[0].colorG }"  data-bs-toggle="modal" data-bs-target="#addTaskModal"  @click="editTask(props.task.id)">
+    <div v-if="props.task" class="card" :style="{borderLeftColor: props.task.tagT[0].colorG }" :showModal="isOpened" @close-task="closeTask" @click="openTask">
         <div class="card0" >
             <div v-for="tag in props.task.tagT" :key="tag.id" class="card-color" :style="{backgroundColor: tag.colorG }"></div>
         </div>

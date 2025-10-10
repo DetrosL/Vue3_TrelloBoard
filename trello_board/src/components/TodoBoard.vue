@@ -3,14 +3,28 @@
     import TodoColumns from "./TodoColumns.vue";
     import TodoTask from "./TodoTask.vue";
     import TodoCard from "./TodoCard.vue";
-    import { inject } from 'vue';
+    import { inject, ref } from 'vue';
 
     const list_todo     = inject('list_todo');
     const list_columns  = inject('list_columns');
+    let isOpened        = false;
+
+    const openTask = () => {
+        console.log('teste');
+        isOpened = true;
+        console.log(isOpened);
+    };
+    const closeTask = () => {
+        isOpened = false;
+    };
+
 </script>
 <template>
+    <button type="button" class="btn btn-primary" @click="openTask">
+        ✚ Create
+    </button> 
     <TodoColumns />
-    <TodoTask />
+    <TodoTask :showModal="isOpened" @close-task="closeTask" name="task-modal"/>
     <div class="d-flex items-start overflow-x-auto overflow-y-auto" style="margin-bottom: 70px;">
         <div v-for="column in list_columns" :key="column.id" class="column list-group-item">
             <div class="header-col">

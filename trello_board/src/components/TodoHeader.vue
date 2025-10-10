@@ -1,4 +1,10 @@
 <script setup>
+    let isOpened        = false;
+
+    const openTask = () => {
+        console.log('teste3');
+        isOpened = true;
+    };
 </script>
 <template>
     <nav class="navbar navbar-expand-sm navbar-light bg-light sticky-top"> <!--bg-dark-->
@@ -22,7 +28,7 @@
                     <a class="nav-link" href="javascript:void(0)">Templates</a>
                     </li>
                     <li>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addTaskModal">
+                        <button type="button" class="btn btn-primary" @click="openTask">
                             ✚ Create
                         </button> 
                     </li>
