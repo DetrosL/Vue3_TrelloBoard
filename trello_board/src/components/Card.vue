@@ -1,24 +1,19 @@
 <script setup>
-    import { defineProps, inject, ref } from 'vue'
-    // const list_todo     = inject('list_todo');
-    let isOpened        = false;
-
-    const openTask = () => {
-        console.log('teste2');
-        isOpened = true;
-    };
-    const closeTask = () => {
-        isOpened = false;
-    };
-
+    import { defineProps } from 'vue'
     const props = defineProps({
         task: Object,
         required: true
     })
 
+    const emit = defineEmits(["edit-task"]);
+
+    function openEdit(){
+        emit('edit-task', props.task.id);
+    }
+
 </script>
 <template>
-    <div v-if="props.task" class="card" :style="{borderLeftColor: props.task.tagT[0].colorG }" :showModal="isOpened" @close-task="closeTask" @click="openTask">
+    <div v-if="props.task" class="card" :style="{borderLeftColor: props.task.tagT[0].colorG }" @click="openEdit">
         <div class="card0" >
             <div v-for="tag in props.task.tagT" :key="tag.id" class="card-color" :style="{backgroundColor: tag.colorG }"></div>
         </div>

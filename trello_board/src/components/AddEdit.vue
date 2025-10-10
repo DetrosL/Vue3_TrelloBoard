@@ -1,5 +1,5 @@
 <script setup>
-    import { ref, inject, defineProps } from 'vue'
+    import { ref, inject, defineProps, watch } from 'vue'
     import {onClickOutside} from '@vueuse/core'
     
     const list_columns  = inject('list_columns');
@@ -18,13 +18,16 @@
     const props = defineProps({
         showModal: Boolean,
         isEdit: Boolean,
+        id: [Number, String, null]
     });
 
-    // console.log(props.showModal+"<- modal")
-
     const emit = defineEmits(["close-task"]);
-    // const target = ref(null)
-    // onClickOutside(target, ()=>emit('close-task'))
+
+    watch(() => props.id, (newVal) => {
+    if (props.isEdit && newVal) {
+        console.log('load task('+props.id+') data:', newVal)
+    }
+    })
 
     function addTag(){
         const idX = tags_todo.value.length;
@@ -107,12 +110,12 @@
     }
 </script>
 <template>
-    <div class="modal fade" v-if="props.showModal">
+    <div class="modal fase" v-if="showModal">
         <div class="modal-dialog modal-dialog-centered modal-total">
             <div class="modal-content d-flex">
                 <div class="modal-header">
-                    <h4 class="modal-title">New Task</h4>
-                    <button type="button" @click.stop="emit('modal-close')"></button>
+                    <h4 class="modal-title">{{ isEdit ? 'Edit Task' : 'New Task' }}</h4>
+                    <button @click="$emit('close-task')">Close</button>
                 </div> <!--header-->
 
                 <div class="modal-body">

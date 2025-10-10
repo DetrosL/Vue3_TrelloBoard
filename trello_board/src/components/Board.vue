@@ -1,20 +1,40 @@
 <script setup>
-    import draggable from 'vuedraggable';
-    import AddColumns from "./AddColumns.vue";
+    import HeaderT from './HeaderT.vue';
+    import AddColumns from "./AddColumns.vue"
     import AddEdit from "./AddEdit.vue";
     import Card from "./Card.vue";
+    import FooterT from './FooterT.vue';
+    import draggable from 'vuedraggable';
     import { inject, ref } from 'vue';
 
     const list_todo     = inject('list_todo');
     const list_columns  = inject('list_columns');
+    const isOpened      = ref(false)
+    const isEdit        = ref(false)
+    const selectedId    = ref(null)
+
+    function openAdd(){
+        isOpened.value   = true
+        isEdit.value     = false
+        selectedId.value = null
+    }
+
+    function openEdit(id){
+        isOpened.value   = true
+        isEdit.value     = true
+        selectedId.value = id
+    }
+
+    function closeTask(){
+        isOpened.value   = false
+        isEdit.value     = false
+        selectedId.value = null
+    }
 
 </script>
-<template>
-    <button type="button" class="btn btn-primary" @click="openTask">
-        ✚ Create
-    </button> 
+<template>    
+    <HeaderT @add-task="openAdd"/>
     <AddColumns />
-    <AddEdit :showModal="isOpened" @close-task="closeTask" name="task-modal"/>
     <div class="d-flex items-start overflow-x-auto overflow-y-auto" style="margin-bottom: 70px;">
         <div v-for="column in list_columns" :key="column.id" class="column list-group-item">
             <div class="header-col">
@@ -28,7 +48,7 @@
                 animation="200"
                 ghost-class="ghost">
                 <template #item="{ element: task }">
-                    <Card :task="list_todo[task]"/>
+                    <Card :task="list_todo[task]" @edit-task="openEdit"/>
                 </template>
             </draggable>
         </div>
@@ -37,6 +57,7 @@
             add_2
             </span>
         </button>
-
     </div>
+    <AddEdit :showModal="isOpened" :isEdit="isEdit" :id="selectedId" @close-task="closeTask" name="task-modal"/>
+    <FooterT />
 </template>

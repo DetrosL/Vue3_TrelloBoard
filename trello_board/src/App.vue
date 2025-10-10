@@ -1,7 +1,5 @@
 <script setup>
-    import HeaderT from './components/HeaderT.vue';
     import Board from './components/Board.vue';
-    import FooterT from './components/FooterT.vue';
     import task from "./data/Task";
     import cols from "./data/Cols";
     import { ref, provide } from 'vue'
@@ -14,8 +12,6 @@
 </script>
 <template>
     <div>
-         <HeaderT />
          <Board />
-         <FooterT />
     </div>
 </template>

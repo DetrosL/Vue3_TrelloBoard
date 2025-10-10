@@ -1,10 +1,9 @@
 <script setup>
-    let isOpened        = false;
+    const emit = defineEmits(['add-task']);
 
-    const openTask = () => {
-        console.log('teste3');
-        isOpened = true;
-    };
+    function openAdd(){
+        emit('add-task');
+    }
 </script>
 <template>
     <nav class="navbar navbar-expand-sm navbar-light bg-light sticky-top"> <!--bg-dark-->
@@ -28,7 +27,7 @@
                     <a class="nav-link" href="javascript:void(0)">Templates</a>
                     </li>
                     <li>
-                        <button type="button" class="btn btn-primary" @click="openTask">
+                        <button type="button" class="btn btn-primary" @click="openAdd">
                             ✚ Create
                         </button> 
                     </li>
