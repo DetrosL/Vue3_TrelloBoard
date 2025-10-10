@@ -1,5 +1,5 @@
 <script setup>
-    import { ref, inject } from 'vue'
+    import { ref, inject, defineProps } from 'vue'
     
     const list_columns  = inject('list_columns');
     const steps_todo    = ref([]);
@@ -14,6 +14,13 @@
     const is_edit       = ref(false);
     const comments_todo = ref([]);
     const attach_todo   = ref([]);
+
+    const props = defineProps({
+        isOpen: Boolean,
+    });
+    const emit = defineEmits(["modal-close"]);
+    const target = ref(null)
+    onClickOutside(target, ()=>emit('modal-close'))
 
     function addTag(){
         const idX = tags_todo.value.length;
@@ -82,12 +89,12 @@
             commentsT: [...comments_todo.value],
             attachT: [...attach_todo.value],
         });
-
-        // fechar modal
+                            // na posição do id, 0?
+        list_todo.splice(id, 0, newItem); // Inserts at a specific index
     }
 </script>
 <template>
-    <div class="modal fade" id="addTaskModal">
+    <div class="modal fade" v-if="showModal">
         <div class="modal-dialog modal-dialog-centered modal-total">
             <div class="modal-content d-flex">
                 <div class="modal-header">

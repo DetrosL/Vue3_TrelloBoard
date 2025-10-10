@@ -1,14 +1,31 @@
 <script setup>
-    import { defineProps } from 'vue'
+    import { defineProps, inject, ref } from 'vue'
+    
+    const list_todo     = inject('list_todo');
 
     const props = defineProps({
         task: Object,
         required: true
     })
 
+    function editTask(id){
+        let todo = list_todo.value[id]
+
+        let titleT = todo.titleT.value
+        let descT = todo.descT.value
+        let tagT = todo.tagT.value
+        let stepsT = todo.stepsT.value
+        let commentsT = todo.commentsT.value
+        let attachT = todo.attachT.value
+
+        // process
+        
+
+    }
+
 </script>
 <template>
-    <div v-if="props.task" class="card" :style="{borderLeftColor: props.task.tagT[0].colorG }"  data-bs-toggle="modal" data-bs-target="#addTaskModal" >
+    <div v-if="props.task" class="card" :style="{borderLeftColor: props.task.tagT[0].colorG }"  data-bs-toggle="modal" data-bs-target="#addTaskModal"  @click="editTask(props.task.id)">
         <div class="card0" >
             <div v-for="tag in props.task.tagT" :key="tag.id" class="card-color" :style="{backgroundColor: tag.colorG }"></div>
         </div>
@@ -19,7 +36,7 @@
 
             <div class="card2-1">
                 <a v-if="props.task.stepsT.length > 0" class="icons" href=""><!--steps-->
-                    <span class="material-symbols-outlined text-dark s_check">check_box</span> {{ props.task.stepsT.filter(item => item === true).length }}/{{ props.task.stepsT.length }} 
+                    <span class="material-symbols-outlined text-dark s_check">check_box</span> <!--{{ props.task.stepsT.filter(item => item === true).length }}--><>/{{ props.task.stepsT.length }} 
                 </a>
                 <a v-if="props.task.commentsT.length > 0" class="icons"  href=""><!--props.task.comments-->
                     <span class="material-symbols-outlined text-dark s_comment">mode_comment</span> {{ props.task.commentsT.length }}

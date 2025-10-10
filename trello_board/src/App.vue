@@ -18,8 +18,6 @@
     <div>
          <TodoHeader />
          <TodoBoard />
-         <TodoColumns />
-         <TodoTask />
          <TodoFooter />
     </div>
 </template>
