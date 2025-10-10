@@ -7,16 +7,6 @@
 
     const list_todo     = inject('list_todo');
     const list_columns  = inject('list_columns');
-    let isOpened        = false;
-
-    const openTask = () => {
-        console.log('teste');
-        isOpened = true;
-        console.log(isOpened);
-    };
-    const closeTask = () => {
-        isOpened = false;
-    };
 
 </script>
 <template>

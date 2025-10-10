@@ -12,20 +12,19 @@
     const completed_step= ref(false);
     const title_todo    = ref('');
     const desc_todo     = ref('');
-    // const is_edit       = ref(false);
     const comments_todo = ref([]);
     const attach_todo   = ref([]);
 
-    const props = defineProps({
-        showModal: Boolean,
-        isEdit: Boolean,
-    });
+    // const props = defineProps({
+    //     showModal: Boolean,
+    //     isEdit: Boolean,
+    // });
 
-    console.log(props.showModal+"<- modal")
+    // console.log(props.showModal+"<- modal")
 
     const emit = defineEmits(["close-task"]);
-    const target = ref(null)
-    onClickOutside(target, ()=>emit('close-task'))
+    // const target = ref(null)
+    // onClickOutside(target, ()=>emit('close-task'))
 
     function addTag(){
         const idX = tags_todo.value.length;
