@@ -20,13 +20,14 @@
         isEdit: Boolean,
         id: [Number, String, null]
     });
+    console.log('AddEdit: props', props);
 
     const emit = defineEmits(["close-task"]);
 
-    watch(() => props.id, (newVal) => {
-    if (props.isEdit && newVal) {
-        console.log('load task('+props.id+') data:', newVal)
-    }
+    watch(() => props.id, () => {
+        if (props.isEdit) {
+            editTask(props.id);
+        }
     })
 
     function addTag(){
@@ -81,10 +82,8 @@
         steps_todo.value    = [];
     }
 
+    // 
     function editTask(id){
-        // isEdit.value = true;
-        // pegar dados?
-
         let todo = list_todo.value[id]
 
         let title_todo      = todo.titleT.value
@@ -114,12 +113,13 @@
         <div class="modal-dialog modal-dialog-centered modal-total">
             <div class="modal-content d-flex">
                 <div class="modal-header">
+                    {{ showModal }}
                     <h4 class="modal-title">{{ isEdit ? 'Edit Task' : 'New Task' }}</h4>
                     <button @click="$emit('close-task')">Close</button>
                 </div> <!--header-->
 
                 <div class="modal-body">
-                    <form @submit.prevent="newTask">
+                    <form @submit.prevent="newTask"> <!--dar um jeito de fazer acionar outra função(saveEdit) se for edição-->
                         <div class="row  modal-tam">
 
                             <!-- left -->
@@ -224,7 +224,7 @@
 
                         </div> <!--row-->
                         <div class="mt-4 text-end">
-                            <button type="submit" class="btn btn-success save">Add</button>
+                            <button type="submit" class="btn btn-success save">{{ isEdit ? 'Save' : 'Add' }}</button>
                         </div> <!--end-->
                     </form> <!--form-->
                 </div> <!--body-->

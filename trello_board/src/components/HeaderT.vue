@@ -3,6 +3,7 @@
 
     function openAdd(){
         emit('add-task');
+        console.log('HeaderT: openAdd', openAdd);
     }
 </script>
 <template>
@@ -63,7 +64,7 @@
                         <a class="nav-link active-r" href="javascript:void(0)"><span class="material-symbols-outlined">grid_on</span> Board</a>
                     </li>
                 </ul>
-                <button type="button" class="btn btn-secondary">Share</button> <!--  data-bs-toggle="modal" data-bs-target="#shareModal" -->
+                <button type="button" class="btn btn-secondary">Share</button>
             </div>
         </div>
     </nav>

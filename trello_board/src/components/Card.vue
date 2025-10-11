@@ -13,7 +13,7 @@
 
 </script>
 <template>
-    <div v-if="props.task" class="card" :style="{borderLeftColor: props.task.tagT[0].colorG }" @click="openEdit">
+    <div v-if="props.task" class="card" :style="{borderLeftColor: props.task.tagT[0].colorG }" @edit-task="openEdit">
         <div class="card0" >
             <div v-for="tag in props.task.tagT" :key="tag.id" class="card-color" :style="{backgroundColor: tag.colorG }"></div>
         </div>
@@ -23,13 +23,13 @@
         <div class="card2">
 
             <div class="card2-1">
-                <a v-if="props.task.stepsT.length > 0" class="icons" href=""><!--steps-->
+                <a v-if="props.task.stepsT.length > 0" class="icons" href="">
                     <span class="material-symbols-outlined text-dark s_check">check_box</span> <!--{{ props.task.stepsT.filter(item => item === true).length }}--><>/{{ props.task.stepsT.length }} 
                 </a>
-                <a v-if="props.task.commentsT.length > 0" class="icons"  href=""><!--props.task.comments-->
+                <a v-if="props.task.commentsT.length > 0" class="icons"  href="">
                     <span class="material-symbols-outlined text-dark s_comment">mode_comment</span> {{ props.task.commentsT.length }}
                 </a>
-                <a v-if="props.task.attachT.length > 0" class="icons"  href=""><!--props.task.attach-->
+                <a v-if="props.task.attachT.length > 0" class="icons"  href="">
                     <span class="material-symbols-outlined text-dark s_attach">attachment</span> {{ props.task.attachT.length }}
                 </a>
             </div>

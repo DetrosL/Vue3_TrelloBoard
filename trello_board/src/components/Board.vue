@@ -14,27 +14,31 @@
     const selectedId    = ref(null)
 
     function openAdd(){
-        isOpened.value   = true
-        isEdit.value     = false
-        selectedId.value = null
+        isOpened.value   = true;
+        isEdit.value     = false;
+        selectedId.value = null;
+        console.log('openAddHOME', isOpened.value, isEdit.value, selectedId.value);
     }
 
     function openEdit(id){
-        isOpened.value   = true
-        isEdit.value     = true
-        selectedId.value = id
+        isOpened.value   = true;
+        isEdit.value     = true;
+        selectedId.value = id;
+        console.log('openEditHOME', isOpened.value, isEdit.value, selectedId.value);
     }
 
     function closeTask(){
-        isOpened.value   = false
-        isEdit.value     = false
-        selectedId.value = null
+        isOpened.value   = false;
+        isEdit.value     = false;
+        selectedId.value = null;
+        console.log('closeTaskHOME', isOpened.value, isEdit.value, selectedId.value);
     }
 
 </script>
 <template>    
     <HeaderT @add-task="openAdd"/>
     <AddColumns />
+
     <div class="d-flex items-start overflow-x-auto overflow-y-auto" style="margin-bottom: 70px;">
         <div v-for="column in list_columns" :key="column.id" class="column list-group-item">
             <div class="header-col">
@@ -48,7 +52,7 @@
                 animation="200"
                 ghost-class="ghost">
                 <template #item="{ element: task }">
-                    <Card :task="list_todo[task]" @edit-task="openEdit"/>
+                    <Card :task="list_todo[task]" @edit-task="openEdit($event)"/>
                 </template>
             </draggable>
         </div>
@@ -58,6 +62,8 @@
             </span>
         </button>
     </div>
+
     <AddEdit :showModal="isOpened" :isEdit="isEdit" :id="selectedId" @close-task="closeTask" name="task-modal"/>
+
     <FooterT />
 </template>
