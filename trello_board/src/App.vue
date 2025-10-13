@@ -12,6 +12,6 @@
 </script>
 <template>
     <div>
-         <Board />
+        <Board />
     </div>
 </template>

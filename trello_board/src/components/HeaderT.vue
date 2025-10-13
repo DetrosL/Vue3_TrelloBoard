@@ -16,16 +16,16 @@
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav justify-content-center me-auto"><!---->
                     <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">Workspaces</a>
+                        <a class="nav-link" href="javascript:void(0)">Workspaces</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">Recent</a>
+                        <a class="nav-link" href="javascript:void(0)">Recent</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">Starred</a>
+                        <a class="nav-link" href="javascript:void(0)">Starred</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">Templates</a>
+                        <a class="nav-link" href="javascript:void(0)">Templates</a>
                     </li>
                     <li>
                         <button type="button" class="btn btn-primary" @click="openAdd">
@@ -33,7 +33,7 @@
                         </button> 
                     </li>
                 </ul>
-                 <ul class="navbar-nav "> <!--justify-content-end-->
+                 <ul class="navbar-nav"> <!--justify-content-end-->
                     <li class="nav-item">
                         <form class="d-flex">
                             <input class="form-control me-2" type="text" placeholder="Search">
