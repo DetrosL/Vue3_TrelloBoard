@@ -1,5 +1,3 @@
-<script setup>
-</script>
 <template>
     <nav class="navbar navbar-expand-sm bg-light navbar-light fixed-bottom">
         <div class="container-fluid justify-content-center">

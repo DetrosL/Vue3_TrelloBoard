@@ -69,10 +69,3 @@
         </div>
     </nav>
 </template>
-<style scoped>
-
-    /* .active-r{
-        background-color: cadetblue;
-    } */
-
-</style>
