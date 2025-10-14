@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_boards', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+         Schema::create('user_boards', function (Blueprint $table) {
+            $table->integer('id_user')->unsigned();
+            // $table->foreign('id_user')->references('id')->on('users');
+            $table->integer('id_board')->unsigned();
+            // $table->foreign('id_board')->references('id')->on('boards');
+            $table->string('permission')->default('A'); // A-Admin, E-Edit, C-Comment, V-View
         });
     }
 

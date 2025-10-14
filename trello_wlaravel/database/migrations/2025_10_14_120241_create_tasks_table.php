@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->integer('id_steps')->unsigned();
+            $table->integer('id_comments')->unsigned();
+            $table->integer('id_attachments')->unsigned();
+            $table->integer('id_creator')->unsigned();// fk_user de usertask
+            // users????
+            $table->string('nome');
+            $table->timestamp('dt_start');
+            $table->timestamp('dt_end');
         });
     }
 

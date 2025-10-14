@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-         Schema::create('steps', function (Blueprint $table) {
-            $table->id();
-            $table->string('desc')->default('A');
-            $table->boolean('completed')->default(false);
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('status')->after('id')->default('A');
         });
     }
 
@@ -23,6 +21,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('steps');
+        Schema::dropIfExists('status');
     }
 };
