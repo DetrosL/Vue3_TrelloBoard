@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_steps')->unsigned();
-            $table->integer('id_comments')->unsigned();
-            $table->integer('id_attachments')->unsigned();
-            $table->integer('id_creator')->unsigned();// fk_user de usertask
-            // users????
+            $table->foreignId('id_step')->constrained(table: 'steps');
+            $table->foreignId('id_comments')->constrained(table: 'comments');
+            $table->foreignId('id_attachments')->constrained(table: 'attaches');
+            $table->foreignId('id_creator')->constrained(table: 'users');
+            $table->foreignId('id_user')->constrained(table: 'users');
             $table->string('nome');
             $table->timestamp('dt_start');
             $table->timestamp('dt_end');
