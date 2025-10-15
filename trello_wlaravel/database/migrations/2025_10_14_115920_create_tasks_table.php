@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-         Schema::create('user_boards', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('id_position')->constrained(table: 'positions');
+            $table->foreignId('id_creator')->constrained(table: 'users');
             $table->foreignId('id_user')->constrained(table: 'users');
-            $table->foreignId('id_board')->constrained(table: 'boards');
-            $table->string('permission')->default('A'); // A-Admin, E-Edit, C-Comment, V-View
+            $table->string('nome');
+            $table->timestamp('dt_start');
+            $table->timestamp('dt_end');
         });
     }
 
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_boards');
+        Schema::dropIfExists('tasks');
     }
 };

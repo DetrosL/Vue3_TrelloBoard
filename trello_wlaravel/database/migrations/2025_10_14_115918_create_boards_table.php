@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attaches', function (Blueprint $table) {
+        Schema::create('boards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_user')->constrained(table: 'users');
-            $table->string('url');
-            $table->integer('qtd');
+            $table->string('title');
         });
     }
 
@@ -24,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attaches');
+        Schema::dropIfExists('boards');
     }
 };

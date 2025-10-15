@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('positions', function (Blueprint $table) {
+         Schema::create('steps', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_board')->constrained(table: 'boards');
-            $table->integer('cod');
-            $table->string('desc');
-            $table->string('status')->default('A');
+            $table->foreignId('id_user')->constrained(table: 'users');
+            $table->foreignId('id_task')->constrained(table: 'tasks');
+            $table->string('desc')->default('A');
+            $table->boolean('completed')->default(false);
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('positions');
+        Schema::dropIfExists('steps');
     }
 };

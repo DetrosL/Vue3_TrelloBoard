@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('boards', function (Blueprint $table) {
+         Schema::create('user_boards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_positions')->constrained(table: 'positions');
-            $table->string('title');
+            $table->foreignId('id_user')->constrained(table: 'users');
+            $table->foreignId('id_board')->constrained(table: 'boards');
+            $table->string('permission')->default('A'); // A-Admin, E-Edit, C-Comment, V-View
         });
     }
 
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('boards');
+        Schema::dropIfExists('user_boards');
     }
 };

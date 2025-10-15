@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('attaches', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_user')->constrained(table: 'users');
-            $table->string('desc');
+            $table->foreignId('id_task')->constrained(table: 'tasks');
+            $table->string('url');
+            $table->integer('qtd');
         });
     }
 
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('attaches');
     }
 };
