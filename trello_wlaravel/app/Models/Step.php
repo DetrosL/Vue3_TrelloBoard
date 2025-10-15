@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Step extends Model
 {
+    protected $fillable = [
+        // 'user_id',
+        'desc',
+        'completed',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
