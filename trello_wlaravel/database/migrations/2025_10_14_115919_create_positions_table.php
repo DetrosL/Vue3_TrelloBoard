@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_board')->constrained(table: 'boards');
+            $table->foreignId('board_id')->constrained(table: 'boards');
             $table->integer('cod');
             $table->string('desc');
             $table->string('status')->default('A');

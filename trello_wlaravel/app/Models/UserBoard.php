@@ -7,14 +7,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserBoard extends Pivot
 {
- protected $table = 'user_boards';
-        public function user(): BelongsTo
-        {
-            return $this->belongsTo(User::class, 'id_board');
-        }
+    // protected $table = 'user_boards';
 
-        public function boards(): BelongsTo
-        {
-            return $this->belongsTo(Board::class, 'id_user');
-        }
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function boards(): BelongsTo
+    {
+        return $this->belongsTo(Board::class);
+    }
 }

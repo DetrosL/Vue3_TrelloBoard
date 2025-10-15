@@ -36,6 +36,26 @@ class User extends Authenticatable
 
     public function boards()
     {
-        return $this->belongsToMany(Board::class, $table='user_boards',$relatedPivotKey='id_board',$foreignPivotKey   ='id_user')->using(UserBoard::class)->withPivot(['id_user','id_board']);
+        return $this->belongsToMany(Board::class)->using(UserBoard::class)->withPivot(['user_id','board_id']);
+    }
+
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class)->using(UserTask::class)->withPivot(['user_id','task_id']);
+    }
+
+    public function steps()
+    {
+        return $this->hasMany(Step::class);
+    }
+    
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+    
+    public function attaches()
+    {
+        return $this->hasMany(Attach::class);
     }
 }
