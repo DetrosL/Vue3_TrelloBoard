@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Board;
 use App\Http\Controllers\Controller;
 use App\Models\Position;
 use Illuminate\View\View;
+use Inertia\Inertia;
 
 class PositionController extends Controller
 {    
@@ -29,7 +30,7 @@ class PositionController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('board/AddPosition'); 
     }
 
     /**

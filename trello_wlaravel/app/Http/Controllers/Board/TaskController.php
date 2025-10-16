@@ -29,10 +29,10 @@ class TaskController extends Controller
         return response()->view('');
     }
 
-    public function create(Request $request):Response
+    
+    public function create()
     {
-        
-        return response()->view('board/AddEdit');
+        return Inertia::render('board/AddEdit'); 
     }
 
     public function edit(Request $request):Response

@@ -109,126 +109,130 @@
     }
 </script>
 <template>
-    <div class="modal fase" v-if="showModal">
-        <div class="modal-dialog modal-dialog-centered modal-total">
-            <div class="modal-content d-flex">
-                <div class="modal-header">
-                    {{ showModal }}
-                    <h4 class="modal-title">{{ isEdit ? 'Edit Task' : 'New Task' }}</h4>
-                    <button @click="$emit('close-task')">Close</button>
-                </div> <!--header-->
+    <Head title="Board" />
+    <AppLayout :breadcrumbs="breadcrumbs">
+        <!-- <HeaderT/> -->
+        <div class="modal fase" v-if="showModal">
+            <div class="modal-dialog modal-dialog-centered modal-total">
+                <div class="modal-content d-flex">
+                    <div class="modal-header">
+                        {{ showModal }}
+                        <h4 class="modal-title">{{ isEdit ? 'Edit Task' : 'New Task' }}</h4>
+                        <button @click="$emit('close-task')">Close</button>
+                    </div> <!--header-->
 
-                <div class="modal-body">
-                    <form @submit.prevent="newTask"> <!--dar um jeito de fazer acionar outra função(saveEdit) se for edição-->
-                        <div class="row  modal-tam">
+                    <div class="modal-body">
+                        <form @submit.prevent="newTask"> <!--dar um jeito de fazer acionar outra função(saveEdit) se for edição-->
+                            <div class="row  modal-tam">
 
-                            <!-- left -->
-                            <div class="col-12 col-md-8 left">
-                                <div class="mb-3">
-                                    <label for="title" class="form-label">Title todo:</label>
-                                    <input
-                                        v-model="title_todo"
-                                        type="text"
-                                        class="form-control"
-                                        id="title"
-                                        name="title"
-                                    />
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="desc">Description todo:</label>
-                                    <textarea
-                                        v-model="desc_todo"
-                                        class="form-control"
-                                        rows="5"
-                                        id="desc"
-                                        name="text"
-                                    ></textarea>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="tags">Tag todo:</label>
-                                    <div class="input-group">
-                                        <select
-                                            v-model="tag"
-                                            class="form-select"
-                                            id="tags"
-                                            name="tags"
-                                        >
-                                            <option value=""></option>
-                                            <option value="back">Back-end</option>
-                                            <option value="front">Front-end</option>
-                                            <option value="api">API</option>
-                                        </select>
-                                        <div class="input-group-text">
-                                            <input
-                                                v-model="color"
-                                                type="color"
-                                                class="form-control form-control-color"
-                                                id="colors"
-                                                name="colors"
-                                                value="#000000"
-                                            />
-                                        </div>
-                                        <button
-                                            class="btn btn-primary"
-                                            type="button"
-                                            @click="addTag"
-                                        >
-                                        <span class="material-symbols-outlined">add</span>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div v-for="tag in tags_todo" :key="tag.id" class="div-tags" >
-                                    <button class="tag-color" :style="{backgroundColor: tag.colorG }" @click="delTag(tag)" ></button>
-                                </div>
-
-                            </div>
-
-                            <!-- right -->
-                            <div class="col-12 col-md-4 right">
-                                <div class="mb-3">
-                                    <label for="step">Steps todo:</label>
-                                    <div class="input-group">
-                                    <div class="input-group-text">
-                                        <input 
-                                            v-model="completed_step" 
-                                            type="checkbox" />
-                                    </div>
+                                <!-- left -->
+                                <div class="col-12 col-md-8 left">
+                                    <div class="mb-3">
+                                        <label for="title" class="form-label">Title todo:</label>
                                         <input
-                                            v-model="title_step"
+                                            v-model="title_todo"
                                             type="text"
                                             class="form-control"
-                                            id="step"
-                                            name="step"
+                                            id="title"
+                                            name="title"
                                         />
-                                        <button
-                                            class="btn btn-primary"
-                                            type="button"
-                                            @click="addStep"
-                                        >
-                                        <span class="material-symbols-outlined">add</span>
-                                        </button>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="desc">Description todo:</label>
+                                        <textarea
+                                            v-model="desc_todo"
+                                            class="form-control"
+                                            rows="5"
+                                            id="desc"
+                                            name="text"
+                                        ></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="tags">Tag todo:</label>
+                                        <div class="input-group">
+                                            <select
+                                                v-model="tag"
+                                                class="form-select"
+                                                id="tags"
+                                                name="tags"
+                                            >
+                                                <option value=""></option>
+                                                <option value="back">Back-end</option>
+                                                <option value="front">Front-end</option>
+                                                <option value="api">API</option>
+                                            </select>
+                                            <div class="input-group-text">
+                                                <input
+                                                    v-model="color"
+                                                    type="color"
+                                                    class="form-control form-control-color"
+                                                    id="colors"
+                                                    name="colors"
+                                                    value="#000000"
+                                                />
+                                            </div>
+                                            <button
+                                                class="btn btn-primary"
+                                                type="button"
+                                                @click="addTag"
+                                            >
+                                            <span class="material-symbols-outlined">add</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div v-for="tag in tags_todo" :key="tag.id" class="div-tags" >
+                                        <button class="tag-color" :style="{backgroundColor: tag.colorG }" @click="delTag(tag)" ></button>
+                                    </div>
+
+                                </div>
+
+                                <!-- right -->
+                                <div class="col-12 col-md-4 right">
+                                    <div class="mb-3">
+                                        <label for="step">Steps todo:</label>
+                                        <div class="input-group">
+                                        <div class="input-group-text">
+                                            <input 
+                                                v-model="completed_step" 
+                                                type="checkbox" />
+                                        </div>
+                                            <input
+                                                v-model="title_step"
+                                                type="text"
+                                                class="form-control"
+                                                id="step"
+                                                name="step"
+                                            />
+                                            <button
+                                                class="btn btn-primary"
+                                                type="button"
+                                                @click="addStep"
+                                            >
+                                            <span class="material-symbols-outlined">add</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <h6>Steps List:</h6>
+                                    <div v-for="step in steps_todo" :key="step.id" style="text-align: left;">
+                                        <input
+                                            type="checkbox" 
+                                            :checked="step.completedS"
+                                            :id="step.id" /> - {{ step.titleS }}
                                     </div>
                                 </div>
 
-                                <h6>Steps List:</h6>
-                                <div v-for="step in steps_todo" :key="step.id" style="text-align: left;">
-                                    <input
-                                        type="checkbox" 
-                                        :checked="step.completedS"
-                                        :id="step.id" /> - {{ step.titleS }}
-                                </div>
-                            </div>
-
-                        </div> <!--row-->
-                        <div class="mt-4 text-end">
-                            <button type="submit" class="btn btn-success save">{{ isEdit ? 'Save' : 'Add' }}</button>
-                        </div> <!--end-->
-                    </form> <!--form-->
-                </div> <!--body-->
-            </div> <!--content-->
-        </div> <!--dialog-->
-    </div>
+                            </div> <!--row-->
+                            <div class="mt-4 text-end">
+                                <button type="submit" class="btn btn-success save">{{ isEdit ? 'Save' : 'Add' }}</button>
+                            </div> <!--end-->
+                        </form> <!--form-->
+                    </div> <!--body-->
+                </div> <!--content-->
+            </div> <!--dialog-->
+        </div>
+    </AppLayout>
 </template>
