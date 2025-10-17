@@ -17,7 +17,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [PositionController::class, 'index'])->name('position.index');
         Route::get('/create', [PositionController::class, 'create'])->name('position.create');
         Route::post('/', [PositionController::class, 'store'])->name('position.store');
-        Route::get('/edit/{id}', [PositionController::class, 'edit'])->name('position.edit');
+        Route::get('/{id}', [PositionController::class, 'show'])->name('position.show');
+        Route::get('/edit/{id}', [PositionController::class, 'edit'])->name('position.edit'); // pattern REST: /{id}/edit
         Route::patch('/{id}', [PositionController::class, 'update'])->name('position.update');
         Route::delete('/{id}', [PositionController::class, 'destroy'])->name('position.destroy');
     });
@@ -26,7 +27,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [TaskController::class, 'index'])->name('task.index');
         Route::get('/create', [TaskController::class, 'create'])->name('task.create');
         Route::post('/', [TaskController::class, 'store'])->name('task.store');
-        Route::get('/edit/{id}', [TaskController::class, 'edit'])->name('task.edit');
+        Route::get('/{id}', [TaskController::class, 'show'])->name('task.show');
+        Route::get('/edit/{id}', [TaskController::class, 'edit'])->name('task.edit'); // pattern REST: /{id}/edit
         Route::patch('/{id}', [TaskController::class, 'update'])->name('task.update');
         Route::delete('/{id}', [TaskController::class, 'destroy'])->name('task.destroy');
     });
