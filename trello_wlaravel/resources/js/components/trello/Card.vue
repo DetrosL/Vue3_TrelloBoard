@@ -20,14 +20,9 @@
     // function openEdit(){
     //     emit('edit-task', task.id);
     // }
-
-    function getTaskById(id: number) {
-        // return list_todo.value.find(task => task.id === id);
-    }
-
 </script>
 <template>
-    <div v-if="props.task" class="card" :style="{borderLeftColor: props.task.tags[0].colorG }" @edit-task="openEdit">
+    <div v-if="props.task" class="card" :style="{borderLeftColor: props.task.tags[0].color }" @edit-task="openEdit">
         <div class="card0" >
             <div v-for="tag in props.task.tags" :key="tag.id" class="card-color" :style="{backgroundColor: tag.color }"></div>
         </div>

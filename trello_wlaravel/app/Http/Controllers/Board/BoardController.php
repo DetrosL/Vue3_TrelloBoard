@@ -14,25 +14,20 @@ use Inertia\Inertia;
 // Route::get('/user/{id}', [UserController::class, 'show']);
 
 class BoardController extends Controller
-{   public function index()
+{   public function index(Request $request)
     {
-        $Board = Board::find(1);
-
+        $user = $request->user();
+        $Board = $user->boards()->with('positions.tasks')->get();
         if (!$Board) {
-            return Inertia::render('board/TrelloBoard', [
+            return Inertia::render('Board', [
                 'title' => 'Board not found',
                 'positions' => [],
                 'tasks' => [],
             ]);
         }
 
-        $Positions  = Position::where('board_id', 1)->get();
-        $Tasks      = Task::where('position_id', 1)->get();
-
         return Inertia::render('Board', [
-            'title' => $Board->title,
-            'positions' => $Positions,
-            'tasks' => $Tasks,
+            'Board' => $Board
         ]);
     }
 

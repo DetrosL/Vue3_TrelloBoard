@@ -9,13 +9,6 @@
 
     // const list_columns  = inject('list_columns');
     // const title_col     = ref('');
-
-    const breadcrumbs: BreadcrumbItem[] = [
-        {
-            title: 'Create a Column',
-            href: create.url(),
-        },
-    ];
     
     // const props = defineProps<{
     //     title: string,
@@ -34,28 +27,24 @@
     // }
 
 </script>
-<template>    
-    <Head title="New Column" />
-
-    <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="modal fade" id="addColModal">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content d-flex">
-                    <div class="modal-header">
-                        <h4 class="modal-title">New Column</h4>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div> 
-                    <form > <!--@submit.prevent="newCol"-->
-                        <label for="title" class="form-label">Title column:</label>
-                        <input 
-                            type="text" 
-                            class="form-control inputs" 
-                            id="title"
-                            name="title" /><!--v-model="title_col"-->
-                        <button button type="submit" class="btn btn-success save">Add</button>
-                    </form> 
-                </div>
+<template>
+    <div>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content d-flex">
+                <div class="modal-header">
+                    <h4 class="modal-title">New Column</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div> 
+                <form > <!--@submit.prevent="newCol"-->
+                    <label for="title" class="form-label">Title column:</label>
+                    <input 
+                        type="text" 
+                        class="form-control inputs" 
+                        id="title"
+                        name="title" /><!--v-model="title_col"-->
+                    <button button type="submit" class="btn btn-success save">Add</button>
+                </form> 
             </div>
         </div>
-    </AppLayout>
+    </div>
 </template>

@@ -1,4 +1,5 @@
 import '../css/trello.css';
+// import '../css/bootstrap.css'
 
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
