@@ -17,4 +17,9 @@ class Position extends Model
     {
         return $this->belongsTo(Board::class);
     }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

@@ -16,4 +16,9 @@ class Step extends Model
     {
         return $this->belongsTo(User::class);
     }
+    //test
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
 }

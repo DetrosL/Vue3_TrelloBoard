@@ -8,18 +8,33 @@ class Task extends Model
 {
     protected $fillable = [
         'position_id',
-        // 'user_id',
         'nome',
         'dt_start',
         'dt_end',
     ];
 
-    // protected $hidden = [
-    //     'creator_id',
-    // ];
-
      public function users()
     {
         return $this->belongsToMany(User::class)->using(UserTask::class)->withPivot(['user_id','task_id']);
+    }
+
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function steps()
+    {
+        return $this->hasMany(Step::class);
+    }
+
+    public function attaches()
+    {
+        return $this->hasMany(Attach::class);
     }
 }
