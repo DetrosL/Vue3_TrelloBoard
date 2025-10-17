@@ -40,14 +40,14 @@ class PositionController extends Controller
         // return redirect()->route('board.index')->with('success', 'successfully created position');
     }
 
-    // public function edit(Position $position)
+    // public function edit(string $id)
     // {
     //     return Inertia::render('board/EditPosition', [
     //         'position' => $position,
     //     ]);
     // }
 
-    // public function update(Request $request, Position $position)
+    // public function update(Request $request, string $id)
     // {
     //     $data = $request->validate([
     //         'cod' => 'required|int|max:11',
@@ -55,14 +55,16 @@ class PositionController extends Controller
     //         'status' => 'required|string',
     //     ]);
 
+    //     $position = Position::findOrFail($id);
     //     $position->update($data);
     //     return response()->json($position, 201);
     //     return redirect()->route('position.index')->with('success', 'Position successfully updated');
     // }
 
-    public function destroy(Position $position)
+    public function destroy(string $id)
     {
+        $position = Position::findOrFail($id);
         $position->delete();
-        return redirect()->route('position.index')->with('success', 'Posição removida.');
+        return redirect()->route('position.index')->with('success', 'Position successfully deleted');
     }
 }

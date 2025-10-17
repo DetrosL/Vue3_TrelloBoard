@@ -18,48 +18,58 @@ class TaskController extends Controller
         return response()->json($tasks);
     }
 
-    public function show(Request $request):Response
+    public function show(string $id)
     {
-        
-        return response()->view('');
+        $task = Task::find($id);
+        return response()->json($task);
     }
 
     
     public function create()
     {
-        return Inertia::render('board/AddEdit'); 
+        return Inertia::render('board/AddEdit');
     }
 
-    public function edit(Request $request):Response
+    public function store(Request $request)
     {
-        
-        return response()->view('board/AddEdit');
+        $data = $request->validate([
+            'position_id' => 'required|exists:positions,id',
+            'nome' => 'required|string|max:255',
+            'dt_start' => 'nullable|date',
+            'dt_end' => 'nullable|date|after_or_equal:dt_start',
+        ]);
+
+        $Task = Task::create($data);
+        return response()->json($Task, 201);
+        // return redirect()->route('task.index')->with('success', 'successfully created task');
     }
 
-    // public function edit(Request $request): Response
-    // {
-    //     return Inertia::render('board/AddEdit');
-    // }
-    // public function update(Request $request): RedirectResponse
-    // {
-    //     $validated = $request->validate([
-    //         'current_password' => ['required', 'current_password'],
-    //         'password' => ['required', Password::defaults(), 'confirmed'],
-    //     ]);
-
-    //     $request->user()->update([
-    //         'password' => Hash::make($validated['password']),
-    //     ]);
-
-    //     return back();
-    // }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Request $request):Response
+    public function edit(string $id)
     {
-        //
-        return response()->view('');
+        $Task = Task::find($id);
+        return Inertia::render('board/AddEdit', [
+            'task' => $Task
+        ]);
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $data = $request->validate([
+            'nome' => 'required|string|max:255',
+            'dt_start' => 'nullable|date',
+            'dt_end' => 'nullable|date|after_or_equal:dt_start',
+        ]);
+
+        $Task = Task::findOrFail($id);
+        $Task->update($data);
+        return response()->json($Task, 201);
+        // return redirect()->route('task.index')->with('success', 'Task successfully updated');
+    }
+
+    public function destroy(string $id)
+    {
+        $task = Task::findOrFail($id);
+        $task->delete();
+        return response()->json(['message' => 'Task successfully deleted'], 200);
     }
 }
