@@ -9,43 +9,60 @@ use Inertia\Inertia;
 
 class PositionController extends Controller
 {    
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $Positions = Position::all();
+        return response()->json($Positions);
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Position $position)
+    
+    public function show(string $id)
     {
-        //
+        $Position = Position::find($id);
+        return response()->json($Position);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return Inertia::render('board/AddPosition'); 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Position $position)
+    public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'board_id' => 'required|exists:boards,id',
+            'cod' => 'required|int|max:11',
+            'desc' => 'nullable|string',
+            'status' => 'required|string',
+        ]);
+
+        $Position= Position::create($data);
+        return response()->json($Position, 201);
+        // return redirect()->route('board.index')->with('success', 'successfully created position');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // public function edit(Position $position)
+    // {
+    //     return Inertia::render('board/EditPosition', [
+    //         'position' => $position,
+    //     ]);
+    // }
+
+    // public function update(Request $request, Position $position)
+    // {
+    //     $data = $request->validate([
+    //         'cod' => 'required|int|max:11',
+    //         'desc' => 'nullable|string',
+    //         'status' => 'required|string',
+    //     ]);
+
+    //     $position->update($data);
+    //     return response()->json($position, 201);
+    //     return redirect()->route('position.index')->with('success', 'Position successfully updated');
+    // }
+
     public function destroy(Position $position)
     {
-        //
+        $position->delete();
+        return redirect()->route('position.index')->with('success', 'Posição removida.');
     }
 }

@@ -10,23 +10,26 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
-Route::middleware('auth')->prefix('board')->group(function () {
-    Route::redirect('board', '/');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/board', [BoardController::class, 'index'])->name('board.index');
     
-    // Route::get('/', [BoardController::class, 'index'])->name('board.index');
-    // Route::get('/{id}', [BoardController::class, 'show']);
-    
-    Route::get('/position', [PositionController::class, 'index'])->name('position.index');
-    Route::get('/position/create', [PositionController::class, 'create'])->name('position.create');
-    Route::get('/position/{id}', [PositionController::class, 'edit'])->name('position.edit');
-    Route::patch('/position/{id}', [PositionController::class, 'update'])->name('position.update');
-    Route::delete('/position/{id}', [PositionController::class, 'destroy'])->name('position.destroy');
-    
-    Route::get('/task', [TaskController::class, 'index'])->name('task.index');
-    Route::get('/task/create', [TaskController::class, 'create'])->name('task.create');
-    Route::get('/task/{id}', [TaskController::class, 'edit'])->name('task.edit');
-    Route::patch('/task/{id}', [TaskController::class, 'update'])->name('task.update');
-    Route::delete('/task/{id}', [TaskController::class, 'destroy'])->name('task.destroy');
+    Route::prefix('position')->group(function () {
+        Route::get('/', [PositionController::class, 'index'])->name('position.index');
+        Route::get('/create', [PositionController::class, 'create'])->name('position.create');
+        Route::post('/', [PositionController::class, 'store'])->name('position.store');
+        Route::get('/edit/{id}', [PositionController::class, 'edit'])->name('position.edit');
+        Route::patch('/{id}', [PositionController::class, 'update'])->name('position.update');
+        Route::delete('/{id}', [PositionController::class, 'destroy'])->name('position.destroy');
+    });
+
+    Route::prefix('task')->group(function () {
+        Route::get('/', [TaskController::class, 'index'])->name('task.index');
+        Route::get('/create', [TaskController::class, 'create'])->name('task.create');
+        Route::post('/', [TaskController::class, 'store'])->name('task.store');
+        Route::get('/edit/{id}', [TaskController::class, 'edit'])->name('task.edit');
+        Route::patch('/{id}', [TaskController::class, 'update'])->name('task.update');
+        Route::delete('/{id}', [TaskController::class, 'destroy'])->name('task.destroy');
+    });
 });
 
 Route::get('board', function () {

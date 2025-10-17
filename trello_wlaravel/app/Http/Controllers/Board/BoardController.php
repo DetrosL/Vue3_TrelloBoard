@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Board;
 
 use App\Http\Controllers\Controller;
 use App\Models\Board;
+use App\Models\Position;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -20,16 +21,32 @@ class BoardController extends Controller
     {
         // return Inertia::render('Board');\
         $Board = Board::find('1');
+        $Positions = Position::all();
         return Inertia::render('Board', [
-            'title' => $Board->get('title'), //??
+            'title' => $Board->get('title'), 
+            'positions' => $Positions
         ]);
         // return response()->json($Board);
     }
-    /**
-     * Display the specified resource.
-     */
-    public function show (Request $request):Response
+
+    public function index()
     {
-        return response()->view('board/AddPosition');
+        $Board = Board::find(1);
+
+        if (!$Board) {
+            return Inertia::render('Board', [
+                'title' => 'Board not found',
+                'positions' => [],
+            ]);
+        }
+
+        $Positions = Position::where('board_id', 1)->get();
+
+        // Retorna para o componente Inertia "Board"
+        return Inertia::render('Board', [
+            'title' => $Board->title,
+            'positions' => $Positions,
+        ]);
     }
+
 }

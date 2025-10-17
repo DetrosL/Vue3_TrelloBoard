@@ -12,17 +12,12 @@ use Illuminate\View\View;
 
 class TaskController extends Controller
 {    
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $tasks = Task::all();
+        return response()->json($tasks);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Request $request):Response
     {
         

@@ -25,7 +25,6 @@
     
     
     const page = usePage();
-    // const board = page.props;
     console.log(page.props);
 </script>
 <template>    
