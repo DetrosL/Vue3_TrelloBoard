@@ -52,6 +52,10 @@ class TaskController extends Controller
         ]);
     }
 
+    // steps
+    // comments
+    // attaches
+
     public function update(Request $request, string $id)
     {
         $data = $request->validate([

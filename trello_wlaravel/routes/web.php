@@ -8,13 +8,12 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
+    //login, register
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/board', [BoardController::class, 'index'])->name('board.index');
-    
-    Route::prefix('position')->group(function () {
-        Route::get('/', [PositionController::class, 'index'])->name('position.index');
+    Route::prefix('board')->group(function () {
+        Route::get('/', [BoardController::class, 'index'])->name('board.index');
         Route::get('/create', [PositionController::class, 'create'])->name('position.create');
         Route::post('/', [PositionController::class, 'store'])->name('position.store');
         Route::get('/{id}', [PositionController::class, 'show'])->name('position.show');
@@ -24,7 +23,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::prefix('task')->group(function () {
-        Route::get('/', [TaskController::class, 'index'])->name('task.index');
         Route::get('/create', [TaskController::class, 'create'])->name('task.create');
         Route::post('/', [TaskController::class, 'store'])->name('task.store');
         Route::get('/{id}', [TaskController::class, 'show'])->name('task.show');
@@ -33,10 +31,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/{id}', [TaskController::class, 'destroy'])->name('task.destroy');
     });
 });
-
-Route::get('board', function () {
-    return Inertia::render('Board');
-})->middleware(['auth', 'verified'])->name('board'); //middleware (algo q tem q ser feito antes de acessar a rota)
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

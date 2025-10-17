@@ -1,26 +1,32 @@
 :root {
   font-family: 'Arial', sans-serif;
-  color-scheme: light dark;
+  /* Light theme colors */
+  --trello-bg: #C7C8C9;
+  --trello-column-bg: #F3F4F6;
+  --trello-card-bg: #ffffff;
+  --trello-text: #000000;
+  --trello-border: #bbbbbb96;
+  --trello-shadow: #00000040;
 }
 
-/* [data-theme="light"] {
-  --primary-color: #ffffff;
-  --text-color: #000000de;
+/* Dark theme colors */
+.dark {
+  --trello-bg: #1f2937;
+  --trello-column-bg: #374151;
+  --trello-card-bg: #4b5563;
+  --trello-text: #f9fafb;
+  --trello-border: #6b7280;
+  --trello-shadow: #00000080;
 }
 
-[data-theme="dark"] {
-  --primary-color: #242424;
-  --text-color: #C7C8C9;
-} */
-
-body {
+.trello-body {
   min-width: 320px;
   min-height: 100vh;
-  background-color: #C7C8C9;
-} 
+  background-color: var(--trello-bg);
+  color: var(--trello-text);
+}
 
 /* FORMS */
-
 form {
     text-align: center;
     justify-items: center;
@@ -69,14 +75,14 @@ textarea {
 
 /* COLUMN */
 
-.column {
+.trello-column {
     margin: 20px 0 20px 30px;
     min-width: 300px;
     max-width: 300px;
     min-height: 500px;
-    background-color: #F3F4F6;
+    background-color: var(--trello-column-bg);
     border-radius: 10px;
-    box-shadow: 0px 4px 4px #00000040;
+    box-shadow: 0px 4px 4px var(--trello-shadow);
 }
 
 .header-col {
@@ -119,9 +125,10 @@ textarea {
 /* CARDS */
 
 .card {
-    background-color: #fff;
+    background-color: var(--trello-card-bg);
+    color: var(--trello-text);
     margin: 0 1em 1em 1em;
-    box-shadow: 0 2px 4px #0000004d;
+    box-shadow: 0 2px 4px var(--trello-shadow);
     height: 100px;
     width: 265px;
     border-radius: 10px;
@@ -156,7 +163,6 @@ textarea {
 
 .card2 {
     height: 2em;
-    /* background-color: #56b3657c; */
     display: flex;
 }
 
@@ -166,7 +172,6 @@ textarea {
 }
 
 .card2-2 {
-    /* background: rgb(131, 158, 231); */
     text-align: right;
     display: flex;
     width: 30%;
@@ -178,7 +183,7 @@ a {
 
 .icons {
     text-decoration: none;
-    color: #000;
+    /* color: #000; */
     font-size: 16px;
     margin: auto 0;
 }
@@ -199,15 +204,3 @@ a {
 .rout {
     text-align: center;
 }
-/* @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-} */
