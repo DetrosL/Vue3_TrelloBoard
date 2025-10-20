@@ -232,26 +232,26 @@ textarea {
     box-shadow: 0px 4px 4px var(--trello-shadow);
 }
 
-.header-col {
+.trello-header-col {
     display: flex;
     margin: 1em;
     border-bottom: 1px solid #bbbbbb96;
 }
 
-.title-col {
+.trello-title-col {
     font-size: 22px;
     padding: .5em;
     width: 90%;
 }
 
-.qt-col {
+.trello-qt-col {
     font-size: 20px;
     padding: .5em;
     border-radius: .3em;
     background-color: #bbbbbb96;
 }
 
-.add-col{
+.trello-add-col{
     margin: 20px 20px 40px 30px;
     min-width: 300px;
     min-height: 400px;
@@ -267,7 +267,7 @@ textarea {
     background-color: #f9fafbc9;
 }
 
-.ghost {
+.trello-ghost {
     opacity: 0.1;
 }
 

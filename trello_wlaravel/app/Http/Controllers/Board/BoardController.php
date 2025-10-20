@@ -19,7 +19,7 @@ class BoardController extends Controller
         $user = User::find(1); // <- pq to logada no user errado
         // $user = $request->user();
         
-        $board = $user->boards()->with('positions.tasks', 'positions.task.steps', 'positions.task.attaches', 'positions.task.comments')->get()->first();
+        $board = $user->boards()->with('positions.tasks', 'positions.tasks.steps', 'positions.tasks.tags', 'positions.tasks.attaches', 'positions.tasks.comments')->get()->first();
         
         if (!$board) {
             return Inertia::render('Board', [
@@ -29,9 +29,6 @@ class BoardController extends Controller
             ]);
         }
 
-        // return Inertia::render('Board', [
-        //     'Board' => $Board
-        // ]);
         return Inertia::render('Board', [
                 'title' => $board->title,
                 'positions' => $board->positions->toArray(),
@@ -53,21 +50,19 @@ class BoardController extends Controller
             'status' => 'required|string',
         ]);
 
-        $Position= Position::create($data);
-        return response()->json($Position, 201);
-        // return redirect()->route('board.index')->with('success', 'successfully created position');
+        $position= Position::create($data);
+        return response()->json($position, 201);
     }
 
     public function destroy(string $id)
     {
         $position = Position::findOrFail($id);
         $position->delete();
-        return redirect()->route('position.index')->with('success', 'Position successfully deleted');
     }
+
     public function list(Request $request){
         $user = $request->user();
-        $board = $user->boards()->with('positions.tasks')->get();
-        // dd($board);
+        $board = $user->boards()->with('positions.tasks', 'positions.tasks.steps', 'positions.tasks.attaches', 'positions.tasks.comments')->get();
         return response()->json($board);
     }
 }

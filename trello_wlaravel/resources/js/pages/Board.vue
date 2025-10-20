@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import Button from '@/components/ui/button/Button.vue';
     import Heads from '@/components/trello/Heads.vue';
+    import teste from '@/components/trello/teste.vue';
     import AddEdit from '@/components/trello/AddEdit.vue';
     import AddPosition from '@/components/trello/AddPosition.vue';
     import Card from '@/components/trello/Card.vue';
@@ -10,6 +11,7 @@
     import { create as createT }  from '@/routes/task';
     import { Link } from '@inertiajs/vue3';
     import { defineProps } from 'vue';
+import Footer from '@/components/trello/Footer.vue';
 
     interface Task {
         id: number;
@@ -21,18 +23,24 @@
         attaches: string[];
     }
 
-    interface Column {
+    interface Position {
         id: number;
-        title: string;
+        desc: string;
         tasks: string[];
     }
 
     const props = defineProps<{
-        columns?: Column[];
+        title?: string;
+        positions?: Position[];
         tasks?: Task[];
     }>();
 
-    const list_columns  = ref(props.columns);
+    console.log('Board TITLE', props.title);
+    console.log('Board POSITIONS', props.positions);
+    console.log('Board TASKS', props.tasks);
+    console.log('Board PROPS', props);
+
+    const list_cols     = ref(props.positions);
     const list_task     = ref(props.tasks);
     const ShowCol       = ref(false);
     const ShowTask      = ref(false);
@@ -66,26 +74,38 @@
             <!-- <Link :href="createT.url()"><Button></Button></Link> -->
             <Button @click="openCol">New Col</Button>
             <Button @click="openEdit">New Task</Button>
-            <div class="d-flex overflow-x-auto">
-                <div v-for="column in list_columns" :key="column.id" class="trello-column">
+
+            <teste/>
+
+            <div class="flex overflow-x-auto">
+                <div v-for="column in list_cols" :key="column.id" class="trello-column">
+                    <div class="trello-header-col">
+                        <h1 class="trello-title-col">{{ column.desc }}</h1>
+                        <h4 class="trello-qt-col">{{ column.tasks.length }}</h4>
+                    </div>       
                     <draggable
                         v-model="column.tasks"
                         :group="{ name: 'tasks', pull: true, put: true }"
                         item-key="id"
                         animation="200"
                         ghost-class="trello-ghost">
-                        <template #item="{ element: taskId }">
-                            <Card :task="taskId" /> <!-- @edit-task="openEdit($evt)"  -->
+                        <template #item="{ element: task }">
+                            <!-- <Card :task="list_task[task]" @edit-task="openEdit($event)"/> -->
                         </template>
                     </draggable>
                 </div>
+                <button type="button" class="trello-add-col text-gray-900"> <!--dark:text-white-->
+                    <span class="material-icons">add_2</span>
+                </button>
             </div>
             <div v-if="ShowCol">
                 <AddPosition class="modal fade"/>
             </div>
             <div v-if="ShowTask">
-                <AddEdit  class="modal fase"/>
+                <AddEdit/>
             </div>
+
+            <Footer />
         </div>
     </App>
 </template>

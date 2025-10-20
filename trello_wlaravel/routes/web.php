@@ -15,12 +15,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('board')->group(function () {
         Route::get('/list', [BoardController::class, 'list'])->name('board');
         Route::get('/', [BoardController::class, 'index'])->name('board.index');
-        Route::get('/create', [PositionController::class, 'create'])->name('position.create');
-        Route::post('/', [PositionController::class, 'store'])->name('position.store');
-        Route::get('/{id}', [PositionController::class, 'show'])->name('position.show');
-        Route::get('/edit/{id}', [PositionController::class, 'edit'])->name('position.edit'); // pattern REST: /{id}/edit
-        Route::patch('/{id}', [PositionController::class, 'update'])->name('position.update');
-        Route::delete('/{id}', [PositionController::class, 'destroy'])->name('position.destroy');
+        Route::get('/create', [BoardController::class, 'create'])->name('position.create');
+        Route::post('/', [BoardController::class, 'store'])->name('position.store');
+        // Route::get('/{id}', [PositionController::class, 'show'])->name('position.show');
+        // Route::get('/edit/{id}', [PositionController::class, 'edit'])->name('position.edit'); // pattern REST: /{id}/edit
+        // Route::patch('/{id}', [PositionController::class, 'update'])->name('position.update');
+        Route::delete('/{id}', [BoardController::class, 'destroy'])->name('position.destroy');
     });
 
     Route::prefix('task')->group(function () {

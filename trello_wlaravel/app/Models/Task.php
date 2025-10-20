@@ -24,14 +24,19 @@ class Task extends Model
         return $this->belongsTo(Position::class);
     }
 
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
-
     public function steps()
     {
         return $this->hasMany(Step::class);
+    }
+
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     public function attaches()

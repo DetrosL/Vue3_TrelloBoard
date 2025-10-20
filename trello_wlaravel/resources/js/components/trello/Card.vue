@@ -10,10 +10,14 @@
         steps: string[];
         attaches: string[];
     }
-    
+
     const props = defineProps<{
-        task?: Task[];
+        tasks?: Task[];
     }>();
+
+    console.log('Board TITLE', props.title);
+
+    console.log('Card TASK', props.task);
 
     // const emit = defineEmits(["edit-task"]);
 
