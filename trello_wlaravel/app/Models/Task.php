@@ -18,6 +18,7 @@ class Task extends Model
         return $this->belongsToMany(User::class)->using(UserTask::class)->withPivot(['user_id','task_id']);
     }
 
+   
     public function position()
     {
         return $this->belongsTo(Position::class);

@@ -13,6 +13,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('board')->group(function () {
+        Route::get('/list', [BoardController::class, 'list'])->name('board');
         Route::get('/', [BoardController::class, 'index'])->name('board.index');
         Route::get('/create', [PositionController::class, 'create'])->name('position.create');
         Route::post('/', [PositionController::class, 'store'])->name('position.store');

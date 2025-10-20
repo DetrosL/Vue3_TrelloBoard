@@ -124,12 +124,12 @@
 
 /* Dark theme colors */
 .dark {
-    --trello-bg: #1f2937;
+    /* --trello-bg: #1f2937;
     --trello-column-bg: #374151;
     --trello-card-bg: #4b5563;
     --trello-text: #f9fafb;
     --trello-border: #6b7280;
-    --trello-shadow: #00000080;
+    --trello-shadow: #00000080; */
 
     --background: hsl(0 0% 3.9%);
     --foreground: hsl(0 0% 98%);
@@ -167,7 +167,11 @@
 }
 
 /* HEADERS */
-
+.trello-board {
+    background-color: var(--trello-bg);
+    font-family: var(--font-f);
+    /* min-height: 100vh; */
+}
 
 /* FORMS */
 form {
@@ -248,13 +252,15 @@ textarea {
 }
 
 .add-col{
-    margin: 20px 20px 10px 30px;
+    margin: 20px 20px 40px 30px;
     min-width: 300px;
-    min-height: 500px;
-    background-color: #f9fafb56;
+    min-height: 400px;
+    max-height: 500px;
+    align-items: center;
+    background-color: #f9fafb56; /* fixo */
     border-radius: 10px;
     border: 0;
-    box-shadow: 0px 4px 4px #00000040;
+    box-shadow: 0px 4px 4px var(--trello-shadow); 
 }
 
 .add-col:hover {
