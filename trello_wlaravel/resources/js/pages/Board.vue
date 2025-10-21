@@ -127,7 +127,6 @@
     <App>
         <div class="trello-board">
             <Heads />
-            <!-- <Link :href="createT.url()"><Button></Button></Link> -->
             <Button @click="openCol">New Col</Button>
             <Button @click="openEdit">New Task</Button>
 
@@ -159,7 +158,6 @@
             </div>
             <div v-if="ShowTask">
                 <AddEdit/>
-                <!-- <teste/> -->
             </div>
             <Footer />
         </div>

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Board;
 
 use App\Http\Controllers\Controller;
-use App\Models\Task;
+
+use App\Models\{Attach, Comment, Step, Task};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -33,15 +34,17 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'position_id' => 'required|exists:positions,id',
+            'position_id' => 'required|exists:positions,id', //smp na primeira posição?
+            'creator_id' => 'required|exists:users,id',
+            'user_id' => 'required|exists:users,id',
             'nome' => 'required|string|max:255',
-            'dt_start' => 'nullable|date',
+            'desc' => 'required|string|max:255',
+            'dt_start' => 'required|date',
             'dt_end' => 'nullable|date|after_or_equal:dt_start',
         ]);
 
-        $Task = Task::create($data);
-        return response()->json($Task, 201);
-        // return redirect()->route('task.index')->with('success', 'successfully created task');
+        $task = Task::create($data);
+        return response()->json($task, 201);
     }
 
     public function edit(string $id)
@@ -53,8 +56,45 @@ class TaskController extends Controller
     }
 
     // steps
+    public function store_step(Request $request)
+    {
+        $data = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'task_id' => 'required|exists:tasks,id',
+            'desc' => 'required|string|max:255',
+            'completed' => 'required|boolean',
+        ]);
+
+        $step = Step::create($data);
+        return response()->json($step, 201);
+    }
+
     // comments
+    public function store_comment(Request $request)
+    {
+        $data = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'task_id' => 'required|exists:tasks,id',
+            'desc' => 'required|string|max:255',
+        ]);
+
+        $comment = Comment::create($data);
+        return response()->json($comment, 201);
+    }
+
     // attaches
+    public function store_attach(Request $request)
+    {
+        $data = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'task_id' => 'required|exists:tasks,id',
+            'url' => 'required|string|max:255',
+            'qtd' => 'required|int|max:11',
+        ]);
+
+        $attach = Attach::create($data);
+        return response()->json($attach, 201);
+    }
 
     public function update(Request $request, string $id)
     {
@@ -67,7 +107,6 @@ class TaskController extends Controller
         $Task = Task::findOrFail($id);
         $Task->update($data);
         return response()->json($Task, 201);
-        // return redirect()->route('task.index')->with('success', 'Task successfully updated');
     }
 
     public function destroy(string $id)

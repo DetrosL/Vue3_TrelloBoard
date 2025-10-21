@@ -184,9 +184,15 @@
 }
 
 /* FORMS */
+
+
 form {
     text-align: center;
     justify-items: center;
+}
+
+.animate-fade-in {
+    animation: fade-in 0.2s ease-out;
 }
 
 .trello-modal-total {
@@ -197,12 +203,13 @@ form {
     width: 100%;
 }
 
-.trello-form1 {
-    width: 70%;
+.trello-textarea {
+    resize: none;
 }
 
-.trello-form2 {
-    width: 30%;
+.trello-inputs {
+    width: 25em;
+    margin-bottom: 1.4em;
 }
 
 .trello-div-tags {
@@ -223,6 +230,10 @@ form {
     font-weight: 500;
     width: 25em;
     margin-bottom: 1.5em;
+}
+
+.trello-footer-form {
+    align-items: center;
 }
 
 /* COLUMN */

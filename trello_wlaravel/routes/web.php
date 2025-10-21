@@ -17,17 +17,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [BoardController::class, 'index'])->name('board.index');
         Route::get('/create', [BoardController::class, 'create'])->name('position.create');
         Route::post('/', [BoardController::class, 'store'])->name('position.store');
-        // Route::get('/{id}', [PositionController::class, 'show'])->name('position.show');
-        // Route::get('/edit/{id}', [PositionController::class, 'edit'])->name('position.edit'); // pattern REST: /{id}/edit
-        // Route::patch('/{id}', [PositionController::class, 'update'])->name('position.update');
         Route::delete('/{id}', [BoardController::class, 'destroy'])->name('position.destroy');
     });
 
     Route::prefix('task')->group(function () {
         Route::get('/create', [TaskController::class, 'create'])->name('task.create');
         Route::post('/', [TaskController::class, 'store'])->name('task.store');
+        Route::post('/step', [TaskController::class, 'store_step'])->name('step.store');
+        Route::post('/comment', [TaskController::class, 'store_comment'])->name('comment.store');
+        Route::post('/attach', [TaskController::class, 'store_attach'])->name('attach.store');
         Route::get('/{id}', [TaskController::class, 'show'])->name('task.show');
-        Route::get('/edit/{id}', [TaskController::class, 'edit'])->name('task.edit'); // pattern REST: /{id}/edit
+        Route::get('/{id}/edit', [TaskController::class, 'edit'])->name('task.edit'); // pattern REST: /{id}/edit
         Route::patch('/{id}', [TaskController::class, 'update'])->name('task.update');
         Route::delete('/{id}', [TaskController::class, 'destroy'])->name('task.destroy');
     });
