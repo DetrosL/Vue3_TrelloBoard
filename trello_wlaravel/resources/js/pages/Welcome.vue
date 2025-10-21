@@ -15,7 +15,7 @@ import { index } from '@/routes/board';
 
 interface Props {
     mustVerifyEmail: boolean;
-    status?: string;
+    status: string;
 }
 
 defineProps<Props>();
@@ -25,6 +25,7 @@ const user = page.props.auth.user;
 
 </script>
 <template>
+    
     <div class="min-h-screen bg-gray-100">
         <header class="bg-white">
             <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -32,8 +33,7 @@ const user = page.props.auth.user;
                     <div class="md:flex md:items-center md:gap-12">
                     <a class="block text-teal-600" href="#">
                         <span class="sr-only">Home</span>
-                        
-                        <a class="navbar-brand" href="#"><img src="../assets/freeline.png" alt="freeline" style="width: 40px;"></a>
+                        <img src="../assets/freeline.png" alt="freeline" style="width: 40px;">
                     </a>
                     </div>
                     <div class="flex items-center gap-4">

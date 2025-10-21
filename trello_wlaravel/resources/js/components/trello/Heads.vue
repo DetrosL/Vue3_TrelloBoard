@@ -51,14 +51,3 @@
         <button class="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded-md text-sm font-medium transition" @click=""> Search </button>
     </header>
 </template>
-<style scoped>
-.trello-button-create {
-    background-color: #2673e7;
-    color: white;
-    padding: 5px 16px;
-    border-radius: 5px;
-}
-.trello-button-create:hover {
-    background-color: #1b5fc4;
-}
-</style>

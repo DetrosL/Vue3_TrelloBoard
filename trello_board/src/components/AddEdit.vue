@@ -109,11 +109,10 @@
     }
 </script>
 <template>
-    <div class="modal fase" v-if="showModal">
+    <div class="modal fase">
         <div class="modal-dialog modal-dialog-centered modal-total">
             <div class="modal-content d-flex">
                 <div class="modal-header">
-                    {{ showModal }}
                     <h4 class="modal-title">{{ isEdit ? 'Edit Task' : 'New Task' }}</h4>
                     <button @click="$emit('close-task')">Close</button>
                 </div> <!--header-->

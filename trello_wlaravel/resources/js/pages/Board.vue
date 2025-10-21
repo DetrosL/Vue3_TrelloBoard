@@ -11,28 +11,60 @@
     import { create as createT }  from '@/routes/task';
     import { Link } from '@inertiajs/vue3';
     import { defineProps } from 'vue';
-import Footer from '@/components/trello/Footer.vue';
+    import Footer from '@/components/trello/Footer.vue';
+    import draggable from 'vuedraggable';
+
+    interface Tag {
+        id: number;
+        user_id: number;
+        task_id: number;
+        name: string;
+        color: string;
+    }
+
+    interface Step {
+        id: number;
+        user_id: number;
+        task_id: number;
+        desc: string;
+        completed: string;
+    }
+
+    interface Attach {
+        id: number;
+        user_id: number;
+        task_id: number;
+        url: string;
+        qtd: number;
+    }
+
+    interface Comment {
+        id: number;
+        user_id: number;
+        task_id: number;
+        desc: string;
+    }
 
     interface Task {
         id: number;
         title: string;
         description: string;
-        tags: string[];
-        comments: string[];
-        steps: string[];
-        attaches: string[];
+        tags: Tag[];
+        comments: Comment[];
+        steps: Step[];
+        attaches: Attach[];
     }
 
     interface Position {
         id: number;
         desc: string;
-        tasks: string[];
+        tasks: Task[];
     }
 
     const props = defineProps<{
-        title?: string;
-        positions?: Position[];
-        tasks?: Task[];
+        title: string;
+        positions: Position[];
+        tasks: Task[];
     }>();
 
     console.log('Board TITLE', props.title);
@@ -40,16 +72,26 @@ import Footer from '@/components/trello/Footer.vue';
     console.log('Board TASKS', props.tasks);
     console.log('Board PROPS', props);
 
-    const list_cols     = ref(props.positions);
-    const list_task     = ref(props.tasks);
+    //     Create a reactive reference for the columns
+    const list_cols = ref(props.positions.map(pos => ({
+        ...pos,
+        tasks: Array.isArray(pos.tasks) ? pos.tasks : []
+    })));
+
+    // Create a reactive reference for tasks
+    const list_task = ref(Array.isArray(props.tasks) ? props.tasks : []);
+
+    // Ensure tasks are properly mapped in columns
+    const columns = computed(() => {
+        return list_cols.value.map(col => ({
+            ...col,
+            tasks: Array.isArray(col.tasks) ? col.tasks : []
+        }));
+    });
+
     const ShowCol       = ref(false);
     const ShowTask      = ref(false);
     const isEdit        = ref(false);
-    
-    // function openAdd(id: number){
-    //     ShowTask.value = true;
-    //     console.log('openEditBOARD', id);
-    // }
 
     function openAdd(){
         ShowTask.value = true;
@@ -66,32 +108,46 @@ import Footer from '@/components/trello/Footer.vue';
         console.log('openEditBOARD', id);
     }
 
+    // Add this after your props definition
+    const validateData = () => {
+        console.log('Validating positions:', props.positions);
+        console.log('Validating tasks:', props.tasks);
+        
+        if (!Array.isArray(props.positions)) {
+            console.error('positions is not an array:', props.positions);
+        }
+        if (!Array.isArray(props.tasks)) {
+            console.error('tasks is not an array:', props.tasks);
+        }
+    };
+
+    validateData();
 </script>
 <template>
     <App>
         <div class="trello-board">
-            <Heads /> <!--@add-task="openAdd"-->
+            <Heads />
             <!-- <Link :href="createT.url()"><Button></Button></Link> -->
             <Button @click="openCol">New Col</Button>
             <Button @click="openEdit">New Task</Button>
-
-            <teste/>
 
             <div class="flex overflow-x-auto">
                 <div v-for="column in list_cols" :key="column.id" class="trello-column">
                     <div class="trello-header-col">
                         <h1 class="trello-title-col">{{ column.desc }}</h1>
                         <h4 class="trello-qt-col">{{ column.tasks.length }}</h4>
-                    </div>       
+                    </div>    
                     <draggable
                         v-model="column.tasks"
                         :group="{ name: 'tasks', pull: true, put: true }"
                         item-key="id"
                         animation="200"
                         ghost-class="trello-ghost">
-                        <template #item="{ element: task }">
-                            <!-- <Card :task="list_task[task]" @edit-task="openEdit($event)"/> -->
+                        <template #item="{element}">
+                            <Card :task="element" @edit-task="openEdit($event)"/>
                         </template>
+                        <template #header></template>
+                        <template #footer> </template>
                     </draggable>
                 </div>
                 <button type="button" class="trello-add-col text-gray-900"> <!--dark:text-white-->
@@ -103,8 +159,8 @@ import Footer from '@/components/trello/Footer.vue';
             </div>
             <div v-if="ShowTask">
                 <AddEdit/>
+                <!-- <teste/> -->
             </div>
-
             <Footer />
         </div>
     </App>

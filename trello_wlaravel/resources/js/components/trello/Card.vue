@@ -1,58 +1,90 @@
 <script setup lang="ts">
-    import { defineProps, ref } from 'vue'
+    import { Blend } from 'lucide-vue-next';
+import { defineProps, ref } from 'vue'
+
+    interface Tag {
+        id: number;
+        user_id: number;
+        task_id: number;
+        name: string;
+        color: string;
+    }
+
+    interface Step {
+        id: number;
+        user_id: number;
+        task_id: number;
+        desc: string;
+        completed: boolean;
+    }
+
+    interface Attach {
+        id: number;
+        user_id: number;
+        task_id: number;
+        url: string;
+        qtd: number;
+    }
+
+    interface Comment {
+        id: number;
+        user_id: number;
+        task_id: number;
+        desc: string;
+    }
 
     interface Task {
         id: number;
-        title: string;
+        nome: string;
         description: string;
-        tags: string[];
-        comments: string[];
-        steps: string[];
-        attaches: string[];
+        tags: Tag[];
+        comments: Comment[];
+        steps: Step[];
+        attaches: Attach[];
     }
 
     const props = defineProps<{
-        tasks?: Task[];
+        task: Task;
     }>();
-
-    console.log('Board TITLE', props.title);
 
     console.log('Card TASK', props.task);
 
-    // const emit = defineEmits(["edit-task"]);
+    const ShowTask = ref(false);
+    const emit = defineEmits(["edit-task"]);
 
-    // function openEdit(){
-    //     emit('edit-task', task.id);
-    // }
+    function openEdit(){
+        console.log("teste1")
+        emit('edit-task', props.task.id);
+        ShowTask.value = true;
+        console.log("teste2"+ShowTask)
+    }
 </script>
 <template>
-    <div v-if="props.task" class="card" :style="{borderLeftColor: props.task.tags[0].color }" @edit-task="openEdit">
-        <div class="card0" >
-            <div v-for="tag in props.task.tags" :key="tag.id" class="card-color" :style="{backgroundColor: tag.color }"></div>
+    <div v-if="props.task" class="trello-card" :style="{borderLeftColor: props.task.tags[0].color }" @edit-task="openEdit">
+        <div class="trello-card0" >
+            <div v-for="tag in props.task.tags" :key="tag.id" class="trello-card-color" :style="{backgroundColor: tag.color }"></div>
         </div>
-        <div class="card1">
-            <p>{{ props.task.title }}</p>
+        <div class="trello-card1">
+            <p>{{ props.task.nome }}</p>
         </div>
-        <div class="card2">
-
-            <div class="card2-1">
-                <a v-if="props.task.steps.length > 0" class="icons" href="">
-                    <span class="material-symbols-outlined text-dark s_check">check_box</span> <!--{{ task.stepsT.filter(item => item === true).length }}--><>/{{ props.task.steps.length }} 
+        <div class="trello-card2">
+            <div class="trello-card2-1">
+                <a v-if="props.task.steps.length > 0" class="trello-icons tre-teste" href="">
+                    <span class="material-icons text-dark">check_box</span> <span>{{ task.steps.filter(item => item.completed == true).length }}/{{ props.task.steps.length }}</span> <!--dark:text-white-->
                 </a>
-                <a v-if="props.task.comments.length > 0" class="icons"  href="">
-                    <span class="material-symbols-outlined text-dark s_comment">mode_comment</span> {{ props.task.comments.length }}
+                <a v-if="props.task.comments.length > 0" class="trello-icons tre-teste2"  href="">
+                    <span class="material-icons text-dark">mode_comment</span><span>{{ props.task.comments.length }}</span>
                 </a>
-                <a v-if="props.task.attaches.length > 0" class="icons"  href="">
-                    <span class="material-symbols-outlined text-dark s_attach">attachment</span> {{ props.task.attaches.length }}
+                <a v-if="props.task.attaches.length > 0" class="trello-icons"  href="">
+                    <span class="material-icons text-dark">attachment</span><span>{{ props.task.attaches.length }}</span>
                 </a>
             </div>
-            <div class="card2-2">
-                <a v-if="true" class="icons"  href=""><!--props.task.circle-->
-                    <span class="material-symbols-outlined text-dark">account_circle</span>
-                    <span class="material-symbols-outlined text-dark">account_circle</span>
+            <div class="trello-card2-2">
+                <a v-if="true" class="trello-icons"  href="">
+                    <span class="material-icons text-dark">account_circle</span>
+                    <span class="material-icons text-dark">account_circle</span>
                 </a>
             </div>
-             
         </div>
     </div>
 </template>

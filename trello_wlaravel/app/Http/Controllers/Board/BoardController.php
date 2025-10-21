@@ -16,8 +16,8 @@ class BoardController extends Controller
 {   
     public function index(Request $request)
     {
-        $user = User::find(1); // <- pq to logada no user errado
-        // $user = $request->user();
+        //$user = User::find(1); // <- pq to logada no user errado
+        $user = $request->user();
         
         $board = $user->boards()->with('positions.tasks', 'positions.tasks.steps', 'positions.tasks.tags', 'positions.tasks.attaches', 'positions.tasks.comments')->get()->first();
         
