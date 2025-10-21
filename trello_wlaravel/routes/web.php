@@ -24,6 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/create', [TaskController::class, 'create'])->name('task.create');
         Route::post('/', [TaskController::class, 'store'])->name('task.store');
         Route::post('/step', [TaskController::class, 'store_step'])->name('step.store');
+        Route::post('/tag', [TaskController::class, 'store_tag'])->name('tag.store');
         Route::post('/comment', [TaskController::class, 'store_comment'])->name('comment.store');
         Route::post('/attach', [TaskController::class, 'store_attach'])->name('attach.store');
         Route::get('/{id}', [TaskController::class, 'show'])->name('task.show');

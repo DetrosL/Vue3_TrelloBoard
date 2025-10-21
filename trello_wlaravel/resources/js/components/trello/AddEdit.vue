@@ -69,30 +69,48 @@
         //
     }
 
-    // 
-    function editTask(id){
-        let todo = list_task.value[id]
-
-        let title_task      = todo.titleT.value
-        let desc_task       = todo.descT.value
-        let tags_task       = todo.tagT.value
-        let steps_task      = todo.stepsT.value
-        let comments_task   = todo.commentsT.value
-        let attach_task     = todo.attachT.value
-
-        // process
+    async function newTask() {
+        try {
+            await router.post('/task', {
+                board_id: selectedBoardId.value,
+                position_id: 1,
+                creator_id: $page.props.auth.user.id, // usuário logado (Inertia)
+                user_id: $page.props.auth.user.id,
+                nome: title_task.value,
+                desc: desc_task.value,
+                dt_start: new Date().toISOString().split('T')[0],
+                dt_end: null,
+            }, {
+                onSuccess: (page) => {
+                    console.log('Task criada com sucesso', page)
+                    title_task.value = ''
+                    desc_task.value = ''
+                    steps_task.value = []
+                    tags_task.value = []
+                },
+                onError: (errors) => {
+                    console.error('Erro ao criar task:', errors)
+                }
+            })
+        } catch (error) {
+            console.error(error)
+        }
     }
 
-    function saveEdit(id){
-        list_task.value.push({
-            id: id,
-            titleT: title_task.value,
-            descT: desc_task.value,
-            tagT: [...tags_task.value],
-            stepsT: [...steps_task.value],
-            commentsT: [...comments_task.value],
-            attachT: [...attach_task.value],
-        });
+    function closeModal() {
+        showModal.value = false;
+        resetForm();
+    }
+
+    function resetForm() {
+        title_task.value = '';
+        desc_task.value = '';
+        tags_task.value = [];
+        steps_task.value = [];
+        tag.value = '';
+        color.value = '#000000';
+        title_step.value = '';
+        completed_step.value = false;
     }
 </script>
 <template>
@@ -102,7 +120,7 @@
                 <h4 class="text-lg font-semibold text-gray-800">
                     {{ isEdit ? 'Edit Task' : 'New Task' }}
                 </h4>
-                <button @click="$emit('close-task')" class="text-gray-500 hover:text-gray-700 rounded-full p-1 transition" >
+                <button @click="closeModal" class="text-gray-500 hover:text-gray-700 rounded-full p-1 transition" >
                     <span class="material-icons text-xl">close</span>
                 </button>
             </div>

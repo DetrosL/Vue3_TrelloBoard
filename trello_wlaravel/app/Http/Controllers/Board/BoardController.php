@@ -45,7 +45,7 @@ class BoardController extends Controller
     {
         $data = $request->validate([
             'board_id' => 'required|exists:boards,id',
-            'cod' => 'required|int|max:11',
+            'cod' => 'required|integer|max:11',
             'desc' => 'nullable|string',
             'status' => 'required|string',
         ]);

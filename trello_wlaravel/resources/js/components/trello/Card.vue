@@ -1,47 +1,7 @@
 <script setup lang="ts">
     import { Blend } from 'lucide-vue-next';
-import { defineProps, ref } from 'vue'
-
-    interface Tag {
-        id: number;
-        user_id: number;
-        task_id: number;
-        name: string;
-        color: string;
-    }
-
-    interface Step {
-        id: number;
-        user_id: number;
-        task_id: number;
-        desc: string;
-        completed: boolean;
-    }
-
-    interface Attach {
-        id: number;
-        user_id: number;
-        task_id: number;
-        url: string;
-        qtd: number;
-    }
-
-    interface Comment {
-        id: number;
-        user_id: number;
-        task_id: number;
-        desc: string;
-    }
-
-    interface Task {
-        id: number;
-        nome: string;
-        description: string;
-        tags: Tag[];
-        comments: Comment[];
-        steps: Step[];
-        attaches: Attach[];
-    }
+    import { defineProps, ref } from 'vue'
+    import type { Task } from '@/types/models'
 
     const props = defineProps<{
         task: Task;

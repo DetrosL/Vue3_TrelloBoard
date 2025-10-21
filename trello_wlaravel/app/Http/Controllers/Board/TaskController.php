@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Board;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\{Attach, Comment, Step, Task};
+use App\Models\{Attach, Comment, Tag, Step, Task};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -34,7 +34,8 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'position_id' => 'required|exists:positions,id', //smp na primeira posição?
+            'board_id' => 'required|exists:boards,id',
+            'position_id' => 'required|exists:positions,id',
             'creator_id' => 'required|exists:users,id',
             'user_id' => 'required|exists:users,id',
             'nome' => 'required|string|max:255',
@@ -44,7 +45,11 @@ class TaskController extends Controller
         ]);
 
         $task = Task::create($data);
-        return response()->json($task, 201);
+        $task = Task::create($data);
+        return response()->json([
+            'message' => 'Task created',
+            'task' => $task
+        ], 201);
     }
 
     public function edit(string $id)
@@ -69,6 +74,20 @@ class TaskController extends Controller
         return response()->json($step, 201);
     }
 
+    // tags
+    public function store_tag(Request $request)
+    {
+        $data = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'task_id' => 'required|exists:tasks,id',
+            'name' => 'required|string|max:255',
+            'color' => 'required|string|max:255',
+        ]);
+
+        $step = Tag::create($data);
+        return response()->json($step, 201);
+    }
+
     // comments
     public function store_comment(Request $request)
     {
@@ -89,7 +108,7 @@ class TaskController extends Controller
             'user_id' => 'required|exists:users,id',
             'task_id' => 'required|exists:tasks,id',
             'url' => 'required|string|max:255',
-            'qtd' => 'required|int|max:11',
+            'qtd' => 'required|integer|max:11',
         ]);
 
         $attach = Attach::create($data);
