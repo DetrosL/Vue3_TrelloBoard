@@ -170,6 +170,7 @@
 .trello-board {
     background-color: var(--trello-bg);
     font-family: var(--font-f);
+    height: 95vh;
 }
 
 .trello-button-create {
@@ -230,6 +231,10 @@ form {
     font-weight: 500;
     width: 25em;
     margin-bottom: 1.5em;
+}
+
+.trello-savei {
+    width: 25em;
 }
 
 .trello-footer-form {

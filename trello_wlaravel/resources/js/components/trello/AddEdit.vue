@@ -18,7 +18,6 @@
     const comments_task = ref([]);
     const attach_task   = ref([]);
 
-
     const emit = defineEmits(['close']);
 
     function closeModal() {
@@ -142,9 +141,7 @@
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-y-auto p-4">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-5xl mx-auto animate-fade-in">
             <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
-                <h4 class="text-lg font-semibold text-gray-800">
-                    {{ isEdit ? 'Edit Task' : 'New Task' }}
-                </h4>
+                <h4 class="text-lg text-gray-800"> {{ isEdit ? 'Edit Task' : 'New Task' }} </h4>
                 <button @click="closeModal" class="text-gray-500 hover:text-gray-700 rounded-full p-1 transition" >
                     <span class="material-icons text-xl">close</span>
                 </button>

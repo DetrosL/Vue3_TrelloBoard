@@ -41,6 +41,7 @@ class BoardController extends Controller
 
     public function store(Request $request)
     {
+        try {
         $data = $request->validate([
             'board_id' => 'required|exists:boards,id',
             'cod' => 'required|integer|max:11',
@@ -49,6 +50,10 @@ class BoardController extends Controller
         ]);
 
         $position= Position::create($data);
+        
+        } catch (\Throwable $th) {
+           return response()->json($th->getMessage(), 400);
+        }
         return response()->json($position, 201);
     }
 

@@ -4,6 +4,7 @@
     import teste from '@/components/trello/teste.vue';
     import AddEdit from '@/components/trello/AddEdit.vue';
     import AddPosition from '@/components/trello/AddPosition.vue';
+    import ButtonCol from '@/components/trello/ButtonCol.vue';
     import Card from '@/components/trello/Card.vue';
     import App from '@/layouts/App.vue';
     import { ref, computed, provide } from 'vue';
@@ -49,18 +50,17 @@
 
     function openEdit(id){
         ShowTask.value = true;
-        console.log('Evento recebido do filho:', id);
     }
 
-    function close() {
+    function closeCol() {
+        ShowCol.value = false;
+    }
+
+    function closeTask() {
         ShowTask.value = false;
     }
 
-
-    const validateData = () => {
-        // console.log('Validating positions:', props.positions);
-        // console.log('Validating tasks:', props.tasks);
-        
+    const validateData = () => {        
         if (!Array.isArray(props.positions)) {
             console.error('positions is not an array:', props.positions);
         }
@@ -74,8 +74,7 @@
 <template>
     <App>
         <div class="trello-board">
-            <Heads @add-task="openAdd" @close="close"/>
-
+            <Heads @add-task="openAdd" @close="closeTask"/>
             <div class="flex overflow-x-auto">
                 <div v-for="column in list_cols" :key="column.id" class="trello-column">
                     <div class="trello-header-col">
@@ -95,14 +94,10 @@
                         <template #footer> </template>
                     </draggable>
                 </div>
-                <button type="button" class="trello-add-col text-gray-900"> <!--dark:text-white-->
-                    <span class="material-icons">add_2</span>
-                </button>
+                <ButtonCol @add-col="openCol"/>
             </div>
-            <div v-if="ShowCol">
-                <AddPosition class="modal fade"/>
-            </div>
-            <AddEdit v-if="ShowTask" @close="close"/>
+            <AddPosition v-if="ShowCol" @close="closeCol"/>
+            <AddEdit v-if="ShowTask" @close="closeTask"/>
             <Footer />
         </div>
     </App>
