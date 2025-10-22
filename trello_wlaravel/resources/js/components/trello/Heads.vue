@@ -1,9 +1,11 @@
 <script setup>
+    import { defineEmits } from 'vue';
+
     const emit = defineEmits(['add-task']);
 
     function openAdd(){
         emit('add-task');
-        console.log('HeaderT: openAdd', openAdd);
+        console.log("add2");
     }
 </script>
 <template>

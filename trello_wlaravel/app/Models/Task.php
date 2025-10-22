@@ -10,6 +10,8 @@ class Task extends Model
     
     protected $fillable = [
         'position_id',
+        'creator_id',
+        'user_id',
         'nome',
         'dt_start',
         'dt_end',
@@ -20,6 +22,10 @@ class Task extends Model
         return $this->belongsToMany(User::class)->using(UserTask::class)->withPivot(['user_id','task_id']);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class)->using(TaskTag::class)->withPivot(['task_id', 'tag_id']);
+    }
    
     public function position()
     {
@@ -29,11 +35,6 @@ class Task extends Model
     public function steps()
     {
         return $this->hasMany(Step::class);
-    }
-
-    public function tags()
-    {
-        return $this->hasMany(Tag::class);
     }
 
     public function comments()

@@ -16,11 +16,9 @@ class BoardController extends Controller
 {   
     public function index(Request $request)
     {
-        //$user = User::find(1); // <- pq to logada no user errado
-        $user = $request->user();
-        
+        $user = $request->user();                                                   //
         $board = $user->boards()->with('positions.tasks', 'positions.tasks.steps', 'positions.tasks.tags', 'positions.tasks.attaches', 'positions.tasks.comments')->get()->first();
-        
+
         if (!$board) {
             return Inertia::render('Board', [
                 'title' => 'Board not found',
@@ -61,8 +59,12 @@ class BoardController extends Controller
     }
 
     public function list(Request $request){
-        $user = $request->user();
-        $board = $user->boards()->with('positions.tasks', 'positions.tasks.steps', 'positions.tasks.attaches', 'positions.tasks.comments')->get();
+        // try {
+            $user = $request->user();
+            $board = $user->boards()->with('positions.tasks', 'positions.tasks.steps', 'positions.tasks.attaches', 'positions.tasks.comments')->get();
+        // } catch (\Throwable $th) {
+        //    return response()->json($th->getMessage(), 400);
+        // }
         return response()->json($board);
     }
 }

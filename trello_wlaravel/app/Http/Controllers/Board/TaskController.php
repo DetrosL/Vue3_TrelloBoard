@@ -77,15 +77,18 @@ class TaskController extends Controller
     // tags
     public function store_tag(Request $request)
     {
+        try {
         $data = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'task_id' => 'required|exists:tasks,id',
             'name' => 'required|string|max:255',
+            'desc' => 'required|string|max:255',
             'color' => 'required|string|max:255',
         ]);
-
-        $step = Tag::create($data);
-        return response()->json($step, 201);
+        
+        $tag = Tag::create($data);
+        } catch (\Throwable $th) {
+           return response()->json($th->getMessage(), 400);
+        }
+        return response()->json($tag, 201);
     }
 
     // comments
@@ -117,15 +120,21 @@ class TaskController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $data = $request->validate([
-            'nome' => 'required|string|max:255',
-            'dt_start' => 'nullable|date',
-            'dt_end' => 'nullable|date|after_or_equal:dt_start',
-        ]);
+        // try {
+            $data = $request->validate([
+                'position_id' => 'required|exists:positions,id',
+                'user_id' => 'required|exists:users,id',
+                'nome' => 'required|string|max:255',
+                'dt_start' => 'nullable|date',
+                'dt_end' => 'nullable|date|after_or_equal:dt_start',
+            ]);
 
-        $Task = Task::findOrFail($id);
-        $Task->update($data);
-        return response()->json($Task, 201);
+            $task = Task::findOrFail($id);
+            $task->update($data);
+        // } catch (\Throwable $th) {
+        //    return response()->json($th->getMessage(), 400);
+        // }
+        return response()->json($task, 201);
     }
 
     public function destroy(string $id)

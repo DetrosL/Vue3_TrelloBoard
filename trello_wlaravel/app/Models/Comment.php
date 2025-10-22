@@ -9,6 +9,8 @@ class Comment extends Model
     public $timestamps = false;
     
     protected $fillable = [
+        'user_id',
+        'task_id',
         'desc',
     ];
 

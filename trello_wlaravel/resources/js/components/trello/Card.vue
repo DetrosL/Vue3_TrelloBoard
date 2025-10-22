@@ -7,20 +7,15 @@
         task: Task;
     }>();
 
-    console.log('Card TASK', props.task);
-
-    const ShowTask = ref(false);
     const emit = defineEmits(["edit-task"]);
 
     function openEdit(){
-        console.log("teste1")
         emit('edit-task', props.task.id);
-        ShowTask.value = true;
-        console.log("teste2"+ShowTask)
+        console.log(props.task.id);
     }
 </script>
 <template>
-    <div v-if="props.task" class="trello-card" :style="{borderLeftColor: props.task.tags[0].color }" @edit-task="openEdit">
+    <div v-if="props.task" class="trello-card" :style="{borderLeftColor: props.task.tags[0] ? props.task.tags[0].color : 'black' }" @click="openEdit">
         <div class="trello-card0" >
             <div v-for="tag in props.task.tags" :key="tag.id" class="trello-card-color" :style="{backgroundColor: tag.color }"></div>
         </div>

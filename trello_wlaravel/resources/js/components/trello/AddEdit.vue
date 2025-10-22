@@ -1,7 +1,10 @@
 <script setup>
+    import TaskController from '@/actions/App/Http/Controllers/Board/TaskController';
     import { ref, inject, defineProps, watch } from 'vue'
     import { index } from '@/routes/board';
     import {onClickOutside} from '@vueuse/core'
+    import { Form } from '@inertiajs/vue3';
+    import { router } from '@inertiajs/vue3';
     
     const steps_task    = ref([]);
     const tags_task     = ref([]);
@@ -15,17 +18,46 @@
     const comments_task = ref([]);
     const attach_task   = ref([]);
 
-    function addTag(){
+
+    const emit = defineEmits(['close']);
+
+    function closeModal() {
+        emit('close');
+    }
+
+    async function addTag(){
+        // try {
+        //     await router.post('/task/tag', {
+        //         user_id: 1, // fixo por enquanto
+        //         task_id: 1, // fixo por enquanto
+        //         name: tag.value,
+        //         color: color.value,
+        //     }, {
+        //         onSuccess: (page) => {
+        //             console.log('Tag created', page)
+        //             tag.value = '';
+        //             color.value = '#000000';
+        //         },
+        //         onError: (errors) => {
+        //             console.error('Error tag:', errors)
+        //         }
+        //     })
+        // } catch (error) {
+        //     console.error(error)
+        // }        
+
         const idX = tags_task.value.length;
 
         tags_task.value.push({
             id: idX,
-            titleG: tag.value,
-            colorG: color.value,
+            title: tag.value,
+            color: color.value,
         });
 
         tag.value = '';
         color.value = '#000000';
+
+        
     }
 
     function delTag(tag) {
@@ -37,69 +69,62 @@
 
         steps_task.value.push({
             id: idX,
-            titleS: title_step.value,
-            completedS: completed_step.value,
+            title: title_step.value,
+            completed: completed_step.value,
         });
 
         title_step.value = '';
         completed_step.value = false;
     }
 
-    function newTask(){
-        const idX = list_task.value.length;
+    // function newTask(){
+    //     const idX = list_task.value.length;
 
-        list_task.value.push({
-            id: idX,
-            titleT: title_task.value,
-            descT: desc_task.value,
-            tagT: [...tags_task.value],
-            stepsT: [...steps_task.value],
-            commentsT: [],
-            attachT: [],
-        });
-        list_columns.value[0].taskC.push(
-            idX
-        );
-        console.log(list_columns.value[0]);
+    //     list_task.value.push({
+    //         id: idX,
+    //         titleT: title_task.value,
+    //         descT: desc_task.value,
+    //         tagT: [...tags_task.value],
+    //         stepsT: [...steps_task.value],
+    //         commentsT: [],
+    //         attachT: [],
+    //     });
+    //     list_columns.value[0].taskC.push(
+    //         idX
+    //     );
+    //     console.log(list_columns.value[0]);
 
-        title_task.value    = '';
-        desc_task.value     = '';
-        steps_task.value    = [];
-
-        //
-    }
+    //     title_task.value    = '';
+    //     desc_task.value     = '';
+    //     steps_task.value    = [];
+    // }
 
     async function newTask() {
         try {
             await router.post('/task', {
-                board_id: selectedBoardId.value,
-                position_id: 1,
-                creator_id: $page.props.auth.user.id, // usuário logado (Inertia)
-                user_id: $page.props.auth.user.id,
+                board_id: 1, // fixo por enquanto
+                position_id: 1, // sempre criado na posição 1
+                creator_id: 1, // fixo por enquanto
+                user_id: 1, // fixo por enquanto
                 nome: title_task.value,
                 desc: desc_task.value,
                 dt_start: new Date().toISOString().split('T')[0],
                 dt_end: null,
             }, {
                 onSuccess: (page) => {
-                    console.log('Task criada com sucesso', page)
+                    console.log('Task created', page)
                     title_task.value = ''
                     desc_task.value = ''
                     steps_task.value = []
                     tags_task.value = []
                 },
                 onError: (errors) => {
-                    console.error('Erro ao criar task:', errors)
+                    console.error('Error task:', errors)
                 }
             })
         } catch (error) {
             console.error(error)
         }
-    }
-
-    function closeModal() {
-        showModal.value = false;
-        resetForm();
     }
 
     function resetForm() {
@@ -126,6 +151,14 @@
             </div>
 
             <div class="p-6">
+                <!-- <Form
+                    v-bind="TaskController.store.form()"
+                    class="space-y-6"
+                    v-slot="{ errors, processing, recentlySuccessful }">
+                    
+                    
+                </Form> -->
+
                 <form @submit.prevent="newTask" class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div class="md:col-span-2 space-y-5">
@@ -178,14 +211,14 @@
                                         </button> <!-- dark:border-white/10 dark:text-white-->
                                     </div>
                                 </div>
-                            </div>
-                            <div class="flex flex-wrap gap-2 pt-2">
-                                <button
-                                    v-for="tag in tags_task"
-                                    :key="tag.id"
-                                    class="trello-tag-color"
-                                    :style="{ backgroundColor: tag.colorG }"
-                                    @click="delTag(tag)"></button>
+                                <div class="flex flex-wrap gap-2 pt-2">
+                                    <button
+                                        v-for="tag in tags_task"
+                                        :key="tag.id"
+                                        class="trello-tag-color"
+                                        :style="{ backgroundColor: tag.color }"
+                                        @click="delTag(tag)"></button> <!--store_tag-->
+                                </div>
                             </div>
                         </div>
 
@@ -222,10 +255,10 @@
                                     class="flex items-center gap-2 text-sm text-gray-800">
                                     <input
                                         type="checkbox"
-                                        :checked="step.completedS"
+                                        :checked="step.completed"
                                         :id="step.id"
                                         class="accent-blue-600"/>
-                                    <label :for="step.id">{{ step.titleS }}</label>
+                                    <label :for="step.id">{{ step.title }}</label>
                                 </div>
                             </div>
                         </div>

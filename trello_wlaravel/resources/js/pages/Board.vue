@@ -38,24 +38,28 @@
     const ShowTask      = ref(false);
     const isEdit        = ref(false);
 
-    function openAdd(){
-        ShowTask.value = true;
-        isEdit.value = false;
-    }
-
     function openCol(){
         ShowCol.value = true;
     }
 
-    function openEdit(id: number){
+    function openAdd(){
         ShowTask.value = true;
-        isEdit.value = true;
-        console.log('openEditBOARD', id);
+        console.log("add1");
     }
 
+    function openEdit(id){
+        ShowTask.value = true;
+        console.log('Evento recebido do filho:', id);
+    }
+
+    function close() {
+        ShowTask.value = false;
+    }
+
+
     const validateData = () => {
-        console.log('Validating positions:', props.positions);
-        console.log('Validating tasks:', props.tasks);
+        // console.log('Validating positions:', props.positions);
+        // console.log('Validating tasks:', props.tasks);
         
         if (!Array.isArray(props.positions)) {
             console.error('positions is not an array:', props.positions);
@@ -70,9 +74,7 @@
 <template>
     <App>
         <div class="trello-board">
-            <Heads />
-            <Button @click="openCol">New Col</Button>
-            <Button @click="openEdit">New Task</Button>
+            <Heads @add-task="openAdd" @close="close"/>
 
             <div class="flex overflow-x-auto">
                 <div v-for="column in list_cols" :key="column.id" class="trello-column">
@@ -87,7 +89,7 @@
                         animation="200"
                         ghost-class="trello-ghost">
                         <template #item="{element}">
-                            <Card :task="element" @edit-task="openEdit($event)"/>
+                            <Card :task="element" @edit-task="openEdit"/>
                         </template>
                         <template #header></template>
                         <template #footer> </template>
@@ -100,9 +102,7 @@
             <div v-if="ShowCol">
                 <AddPosition class="modal fade"/>
             </div>
-            <div v-if="ShowTask">
-                <AddEdit/>
-            </div>
+            <AddEdit v-if="ShowTask" @close="close"/>
             <Footer />
         </div>
     </App>
