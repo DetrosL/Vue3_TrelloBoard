@@ -13,6 +13,7 @@ class Task extends Model
         'creator_id',
         'user_id',
         'nome',
+        'desc',
         'dt_start',
         'dt_end',
     ];

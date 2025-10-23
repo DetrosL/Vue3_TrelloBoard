@@ -22,10 +22,11 @@
 
     async function newCol(){        
         try {
-            await router.post('/board/create', {
+            await router.post('/board/', {
                 board_id: 1, // fixo por enquanto
                 cod: position_col.value,
-                desc: title_col.value
+                desc: title_col.value,
+                status: "A"
             }, {
                 onSuccess: (page) => {
                     console.log('col created', page)

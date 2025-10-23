@@ -33,22 +33,43 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'board_id' => 'required|exists:boards,id',
+        try {
+        $data_task = $request->validate([
             'position_id' => 'required|exists:positions,id',
             'creator_id' => 'required|exists:users,id',
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'exists:users,id',
             'nome' => 'required|string|max:255',
-            'desc' => 'required|string|max:255',
+            'desc' => 'nullable|string|max:255',
             'dt_start' => 'required|date',
             'dt_end' => 'nullable|date|after_or_equal:dt_start',
         ]);
 
-        $task = Task::create($data);
-        $task = Task::create($data);
+        $task = Task::create($data_task);
+
+        // $data_tag = $request->validate([
+        //     'tags_task.*.title' => 'required|string|max:255',
+        //     'tags_task.*.desc' => 'required|string|max:255',
+        //     'tags_task.*.color' => 'required|string|max:255',
+        // ]);
+
+        // $data_step = $request->validate([
+        //     'task_id' => 'required|string|max:255', //id do q acabou de ser criado
+        //     'steps_task.*.title' => 'required|string|max:255',
+        //     'steps_task.*.completed' => 'required|string|max:255',
+        // ]);
+        
+        // dd($data_tag);
+        // $tag = Tag::create($data_tag);
+        // $step = Step::create($data_step);
+        
+        } catch (\Throwable $th) {
+           return response()->json($th->getMessage(), 400);
+        }
         return response()->json([
             'message' => 'Task created',
-            'task' => $task
+            'task' => $task,
+            // 'tags' => $tag,
+            // 'steps' => $step,
         ], 201);
     }
 
@@ -77,7 +98,6 @@ class TaskController extends Controller
     // tags
     public function store_tag(Request $request)
     {
-        try {
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'desc' => 'required|string|max:255',
@@ -85,9 +105,6 @@ class TaskController extends Controller
         ]);
         
         $tag = Tag::create($data);
-        } catch (\Throwable $th) {
-           return response()->json($th->getMessage(), 400);
-        }
         return response()->json($tag, 201);
     }
 

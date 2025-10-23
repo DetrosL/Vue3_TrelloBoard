@@ -3,7 +3,7 @@
     import { ref, inject, defineProps, watch } from 'vue'
     import { index } from '@/routes/board';
     import {onClickOutside} from '@vueuse/core'
-    import { Form } from '@inertiajs/vue3';
+    import { Form, usePage } from '@inertiajs/vue3';
     import { router } from '@inertiajs/vue3';
     
     const steps_task    = ref([]);
@@ -24,39 +24,20 @@
         emit('close');
     }
 
-    async function addTag(){
-        // try {
-        //     await router.post('/task/tag', {
-        //         user_id: 1, // fixo por enquanto
-        //         task_id: 1, // fixo por enquanto
-        //         name: tag.value,
-        //         color: color.value,
-        //     }, {
-        //         onSuccess: (page) => {
-        //             console.log('Tag created', page)
-        //             tag.value = '';
-        //             color.value = '#000000';
-        //         },
-        //         onError: (errors) => {
-        //             console.error('Error tag:', errors)
-        //         }
-        //     })
-        // } catch (error) {
-        //     console.error(error)
-        // }        
-
+    async function addTag(){      
         const idX = tags_task.value.length;
 
         tags_task.value.push({
             id: idX,
             title: tag.value,
+            desc: "teste_desc_tag", // tag.value.innerHTML
             color: color.value,
         });
 
+        console.log(tags_task);
+
         tag.value = '';
         color.value = '#000000';
-
-        
     }
 
     function delTag(tag) {
@@ -75,33 +56,14 @@
         title_step.value = '';
         completed_step.value = false;
     }
-
-    // function newTask(){
-    //     const idX = list_task.value.length;
-
-    //     list_task.value.push({
-    //         id: idX,
-    //         titleT: title_task.value,
-    //         descT: desc_task.value,
-    //         tagT: [...tags_task.value],
-    //         stepsT: [...steps_task.value],
-    //         commentsT: [],
-    //         attachT: [],
-    //     });
-    //     list_columns.value[0].taskC.push(
-    //         idX
-    //     );
-    //     console.log(list_columns.value[0]);
-
-    //     title_task.value    = '';
-    //     desc_task.value     = '';
-    //     steps_task.value    = [];
-    // }
+    
+    const page = usePage();
+    const user = page.props.auth.user;
+    console.log("user: "+user);
 
     async function newTask() {
         try {
-            await router.post('/task', {
-                board_id: 1, // fixo por enquanto
+            await router.post('/task/', {
                 position_id: 1, // sempre criado na posição 1
                 creator_id: 1, // fixo por enquanto
                 user_id: 1, // fixo por enquanto
@@ -109,6 +71,8 @@
                 desc: desc_task.value,
                 dt_start: new Date().toISOString().split('T')[0],
                 dt_end: null,
+                tags_task: tags_task.value,
+                steps_task: steps_task.value
             }, {
                 onSuccess: (page) => {
                     console.log('Task created', page)
