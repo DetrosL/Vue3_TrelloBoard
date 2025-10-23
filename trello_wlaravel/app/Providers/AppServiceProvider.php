@@ -11,7 +11,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            \App\Services\TaskServiceInterface::class,
+            \App\Services\TaskService::class
+        );
     }
 
     /**
@@ -19,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // \App\Models\Task::observe(\App\Observers\EmailObserver::class);
         //
     }
 }

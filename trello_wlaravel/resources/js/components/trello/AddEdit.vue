@@ -76,10 +76,7 @@
             }, {
                 onSuccess: (page) => {
                     console.log('Task created', page)
-                    title_task.value = ''
-                    desc_task.value = ''
-                    steps_task.value = []
-                    tags_task.value = []
+                    resetForm();
                 },
                 onError: (errors) => {
                     console.error('Error task:', errors)

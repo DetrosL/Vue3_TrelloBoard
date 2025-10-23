@@ -5,14 +5,19 @@ namespace App\Http\Controllers\Board;
 use App\Http\Controllers\Controller;
 
 use App\Models\{Attach, Comment, Tag, Step, Task};
-use Illuminate\Http\RedirectResponse;
+use App\Services\TaskService;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Inertia\Inertia;
-use Illuminate\View\View;
 
 class TaskController extends Controller
 {    
+    protected $taskService;
+
+    public function __construct(TaskService $taskService)
+    {
+        $this->taskService = $taskService;
+    }
+
     public function index()
     {
         $tasks = Task::all();
@@ -25,7 +30,6 @@ class TaskController extends Controller
         return response()->json($task);
     }
 
-    
     public function create()
     {
         return Inertia::render('board/AddEdit');
@@ -33,7 +37,7 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
-        try {
+    
         $data_task = $request->validate([
             'position_id' => 'required|exists:positions,id',
             'creator_id' => 'required|exists:users,id',
@@ -42,15 +46,47 @@ class TaskController extends Controller
             'desc' => 'nullable|string|max:255',
             'dt_start' => 'required|date',
             'dt_end' => 'nullable|date|after_or_equal:dt_start',
+            'steps_task' => 'sometimes|array',
+            'tags_task' => 'sometimes|array',
+        
         ]);
+        // print_r($data_task);
+        try {
+            $tags = $data_task['tags_task'] ? $data_task['tags_task'] : [];
+            $steps = $data_task['steps_task'] ? $data_task['steps_task'] : [];
+            $stepObjectList = [];
+            $tagObjectList = [];
+    
+            foreach( $steps as $step ){
+                $stepObjectList[] = new Step($step);
+    
+            }
+             foreach( $tags as $tag ){
+                $tagObjectList[] = new Tag($tag);
+    
+            }
+            
+            //code...
+        } catch (\Throwable $th) {
+            return response()->json($th->getMessage(), 400);
+        }
+        // print_r($steps);
+        // printf('--------------------------------------------');
+        // print_r($tags);
+        // printf('--------------------------------------------');
 
-        $task = Task::create($data_task);
+        print_r($stepObjectList);
+        print_r($tagObjectList);
+        $task = new Task($data_task);
 
-        // $data_tag = $request->validate([
-        //     'tags_task.*.title' => 'required|string|max:255',
-        //     'tags_task.*.desc' => 'required|string|max:255',
-        //     'tags_task.*.color' => 'required|string|max:255',
-        // ]);
+        dd("morta com farofa");
+
+        // $task = Task::create($data_task);
+
+        //foreach ...
+            // valida
+            // salva
+        // salvar só o id da tag dentro do tag_task
 
         // $data_step = $request->validate([
         //     'task_id' => 'required|string|max:255', //id do q acabou de ser criado
@@ -61,10 +97,7 @@ class TaskController extends Controller
         // dd($data_tag);
         // $tag = Tag::create($data_tag);
         // $step = Step::create($data_step);
-        
-        } catch (\Throwable $th) {
-           return response()->json($th->getMessage(), 400);
-        }
+    
         return response()->json([
             'message' => 'Task created',
             'task' => $task,

@@ -10,9 +10,9 @@
     const position_col  = ref('');
     const title_col     = ref('');
     
-    const props = defineProps<{
-        title: string,
-    }>();  
+    // const props = defineProps<{
+    //     title: string,
+    // }>();  
 
     const emit = defineEmits(['close']);
 

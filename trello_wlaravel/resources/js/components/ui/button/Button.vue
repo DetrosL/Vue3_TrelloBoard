@@ -25,3 +25,10 @@ const props = withDefaults(defineProps<Props>(), {
     <slot />
   </Primitive>
 </template>
+
+<style scoped>
+    Button {
+        background-color: rgba(165, 7, 7, 0.673);
+        color: white;
+    }
+</style>
