@@ -126,28 +126,29 @@
         }
 
         try {
-            await router.put(`/task/${editingTaskId.value}/edit`, {
+            await router.put(`/task/${editingTaskId.value}/edit`, { 
+                // position_id: 1, hmmmm
+                user_id: 1,
                 nome: title_task.value,
                 desc: desc_task.value,
-                tags_task: tags_back.value,
                 steps_task: steps_task.value,
+                tags_task: tags_back.value,
             }, {
-            onSuccess: (page) => {
-                console.log('Task updated', page);
-                resetForm();
-                isEdit.value = false;
-                editingTaskId.value = null;
-                emit('close');
-            },
-            onError: (errors) => {
-                console.error('Erro ao atualizar task:', errors);
-            }
+                onSuccess: (page) => {
+                    console.log('Task updated', page);
+                    resetForm();
+                    isEdit.value = false;
+                    editingTaskId.value = null;
+                    emit('close');
+                },
+                onError: (errors) => {
+                    console.error('Erro ao atualizar task:', errors);
+                }
             });
         } catch (error) {
             console.error('Erro inesperado:', error);
         }
     }
-
 
     function resetForm() {
         title_task.value = '';

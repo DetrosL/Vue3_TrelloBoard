@@ -49,7 +49,7 @@
     function openEdit(task: Task) {
         console.log('[PARENT] Recebeu task do card:', task);
         
-        showTask.value = true;
+        ShowTask.value = true;
 
         nextTick(() => {
             console.log('[PARENT] addEditRef.value:', addEditRef.value);

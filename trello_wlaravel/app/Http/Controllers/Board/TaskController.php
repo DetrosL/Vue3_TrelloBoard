@@ -137,21 +137,45 @@ class TaskController extends Controller
 
     public function update(Request $request, string $id)
     {
-        // try {
-            $data = $request->validate([
-                'position_id' => 'required|exists:positions,id',
-                'user_id' => 'required|exists:users,id',
-                'nome' => 'required|string|max:255',
-                'dt_start' => 'nullable|date',
-                'dt_end' => 'nullable|date|after_or_equal:dt_start',
-            ]);
+        $data_task = $request->validate([
+            'position_id' => 'nullable|exists:positions,id',
+            'user_id' => 'nullable|exists:users,id',
+            'nome' => 'required|string|max:255',
+            'desc' => 'nullable|string|max:255',
+            'dt_start' => 'nullable|date',
+            'dt_end' => 'nullable|date|after_or_equal:dt_start',
+            'steps_task' => 'sometimes|array',
+            'steps_task.*.user_id' => 'required|integer|max:11',
+            'steps_task.*.desc' => 'nullable|string|max:255',
+            'steps_task.*.completed' => 'required|boolean',
+            'tags_task' => 'sometimes|array',
+            'tags_task.*.id' => 'nullable|integer|max:11',
+        ]);
 
-            $task = Task::findOrFail($id);
-            $task->update($data);
-        // } catch (\Throwable $th) {
-        //    return response()->json($th->getMessage(), 400);
-        // }
-        return response()->json($task, 201);
+        $task = Task::findOrFail($id);
+
+        // Atualiza campos principais
+        $task->update([
+            'nome' => $data_task['nome'],
+            'desc' => $data_task['desc'] ?? $task->desc,
+            'dt_start' => $data_task['dt_start'] ?? $task->dt_start,
+            'dt_end' => $data_task['dt_end'] ?? $task->dt_end,
+            'position_id' => $data_task['position_id'] ?? $task->position_id,
+            'user_id' => $data_task['user_id'] ?? $task->user_id,
+        ]);
+
+        if (!empty($data_task['tags_task'])) {
+            $this->taskService->updateTag($task, $data_task['tags_task']);
+        }
+
+        if (!empty($data_task['steps_task'])) {
+            $this->taskService->updateStep($task, $data_task['steps_task']);
+        }
+
+        return response()->json([
+            'message' => 'Task updated successfully',
+            'task' => $task->load(['tags', 'steps']),
+        ], 200);
     }
 
     public function destroy(string $id)
