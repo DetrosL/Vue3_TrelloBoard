@@ -51,8 +51,8 @@ class TaskController extends Controller
             'steps_task.*.desc' => 'nullable|string|max:255',
             'steps_task.*.completed' => 'required|boolean',
             // tag
-            'tags_back' => 'sometimes|array',
-            'tags_back.*.id' => 'nullable|integer|max:11',
+            'tags_task' => 'sometimes|array',
+            'tags_task.*.id' => 'nullable|integer|max:11',
         ]);
 
         $task = Task::create($data_task);
@@ -61,8 +61,8 @@ class TaskController extends Controller
             $this->taskService->createStep($task, $data_task['steps_task']);
         }
 
-        if (!empty($data_task['tags_back'])) {
-            $this->taskService->createTag($task, $data_task['tags_back']);
+        if (!empty($data_task['tags_task'])) {
+            $this->taskService->createTag($task, $data_task['tags_task']);
         }
     
         print_r($task);

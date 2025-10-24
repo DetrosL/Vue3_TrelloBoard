@@ -32,7 +32,7 @@ class BoardController extends Controller
                 'title' => $board->title,
                 'positions' => $board->positions->toArray(),
                 'tasks' => $board->positions->flatMap->tasks->toArray(),
-                'tag' => $tags,
+                'tags' => $tags->toArray(),
             ]);
     }
 

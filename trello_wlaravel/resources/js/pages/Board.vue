@@ -5,7 +5,7 @@
     import ButtonCol from '@/components/trello/ButtonCol.vue';
     import Card from '@/components/trello/Card.vue';
     import App from '@/layouts/App.vue';
-    import { ref, computed, defineProps } from 'vue';
+    import { ref, computed, defineProps, nextTick } from 'vue';
     import { router } from '@inertiajs/vue3';
     import Footer from '@/components/trello/Footer.vue';
     import draggable from 'vuedraggable';
@@ -34,6 +34,7 @@
 
     const ShowCol       = ref(false);
     const ShowTask      = ref(false);
+    const addEditRef    = ref();
     const isEdit        = ref(false);
 
     function openCol(){
@@ -45,9 +46,20 @@
         console.log("add1");
     }
 
-    function openEdit(){
-        ShowTask.value = true;
-    }
+    function openEdit(task: Task) {
+        console.log('[PARENT] Recebeu task do card:', task);
+        
+        showTask.value = true;
+
+        nextTick(() => {
+            console.log('[PARENT] addEditRef.value:', addEditRef.value);
+            if (addEditRef.value) {
+            addEditRef.value.fillForm(task);
+            } else {
+            console.warn('[PARENT] ⚠️ addEditRef ainda não existe no nextTick');
+            }
+        });
+        }
 
     function closeCol() {
         ShowCol.value = false;
@@ -94,7 +106,7 @@
                 <ButtonCol @add-col="openCol"/>
             </div>
             <AddPosition v-if="ShowCol" @close="closeCol"/> 
-            <AddEdit v-if="ShowTask" @close="closeTask" :tags_list="list_tags" />
+            <AddEdit v-if="ShowTask" @close="closeTask" :tags_list="list_tags" ref="addEditRef"/>
             <Footer />
         </div>
     </App>

@@ -9,13 +9,10 @@ class Tag extends Model
     public $timestamps = false;
     
     protected $fillable = [
+        'id',
         'name',
         'desc',
         'color',
-    ];
-    
-    protected $hidden = [
-        'id',
     ];
 
     public function user()
@@ -25,6 +22,6 @@ class Tag extends Model
 
     public function tasks()
     {
-        return $this->belongsToMany(Task::class)->using(TaskTag::class)->withPivot(['task_id', 'tag_id']);
+        return $this->belongsToMany(Task::class)->using(TagTask::class)->withPivot(['task_id', 'tag_id']);
     }
 }

@@ -1,12 +1,11 @@
 <script setup lang="ts">
-    import TaskController from '@/actions/App/Http/Controllers/Board/TaskController';
     import { ref, inject, defineProps, watch } from 'vue'
-    import { index } from '@/routes/board';
-    import {onClickOutside} from '@vueuse/core'
-    import { Form, usePage } from '@inertiajs/vue3';
+    import { usePage } from '@inertiajs/vue3';
     import type { Tag, Step, Comment, Attach } from '@/types/models'
     import { router } from '@inertiajs/vue3';
     
+    const isEdit = ref(false);
+    const editingTaskId = ref<number | null>(null);
     const steps_task    = ref<Step[]>([]);
     const tags_task     = ref<Tag[]>([]);
     const tags_back     = ref<{ id: number }[]>([]);
@@ -30,30 +29,42 @@
         tags_list: Tag[]
     }>();
 
-    const isEdit = ref(false);
+    console.log('teast', props.tags_list);
+
+    // watch(tag, (newTagId) => {
+    //     if (!newTagId) return; 
+
+    //     const selectedTag = props.tags_list.find(t => t.id === Number(newTagId));
+    //     if (selectedTag) {
+    //         color.value = selectedTag.color || '#000000';
+    //     }
+    // });
 
     async function addTag(){
-        const selectedTag = props.tags_list.find(op => op.name === tag.value);
+        if (!tag.value) {
+            console.warn('error1');
+            return;
+        }
+
+        const selectedTagId = Number(tag.value);
+        const selectedTag = props.tags_list.find(t => t.id === selectedTagId);
         if (!selectedTag) {
-            console.warn('Tag not found');
+            console.warn('Tag não encontrada na lista');
             return;
         }
 
         tags_task.value.push({
             id: tags_task.value.length,
-            user_id: 1,
-            task_id: 0,
             name: selectedTag.name,
             desc: selectedTag.desc,
-            color: color.value,
+            color: selectedTag.color,
         });
 
-        
-        // pegar o value da tags q já existem e armazena em um array, para usar no salvar da task... colocando o task_id e o tag_id em uma tabela intermediaria
-        //  esse eu n quero fazer com tipagem, só um array de id com base no value da tag escolhida...
         tags_back.value.push({
             id: selectedTag.id,
-        })
+        });
+
+        console.log('Tags back:', tags_back.value);
 
         tag.value = '';
     }
@@ -79,8 +90,8 @@
     }
     
     const page = usePage();
-    const user = page.props.auth.user;
-    console.log("user: "+user);
+    // const user = page.props.auth.user;
+    // console.log("user", user);
 
     async function newTask() {
         try {
@@ -108,6 +119,36 @@
         }
     }
 
+    async function updateTask() {
+        if (!editingTaskId.value) {
+            console.error("Nenhuma task selecionada para edição");
+            return;
+        }
+
+        try {
+            await router.put(`/task/${editingTaskId.value}/edit`, {
+                nome: title_task.value,
+                desc: desc_task.value,
+                tags_task: tags_back.value,
+                steps_task: steps_task.value,
+            }, {
+            onSuccess: (page) => {
+                console.log('Task updated', page);
+                resetForm();
+                isEdit.value = false;
+                editingTaskId.value = null;
+                emit('close');
+            },
+            onError: (errors) => {
+                console.error('Erro ao atualizar task:', errors);
+            }
+            });
+        } catch (error) {
+            console.error('Erro inesperado:', error);
+        }
+    }
+
+
     function resetForm() {
         title_task.value = '';
         desc_task.value = '';
@@ -117,7 +158,34 @@
         color.value = '#000000';
         title_step.value = '';
         completed_step.value = false;
+        isEdit.value = false;
+        editingTaskId.value = null;
     }
+
+
+    function fillForm(task: any) {
+        console.log('[FORM] fillForm() chamada com task:', task);
+
+        isEdit.value = true;
+        editingTaskId.value = task.id;
+
+        title_task.value = task.nome || '';
+        desc_task.value = task.desc || '';
+        tags_task.value = task.tags || [];
+        tags_back.value = task.tags.map((t: any) => ({ id: t.id })) || [];
+        steps_task.value = task.steps || [];
+
+        console.log('[FORM] Campos preenchidos:', {
+            title_task: title_task.value,
+            desc_task: desc_task.value,
+            tags_task: tags_task.value,
+            steps_task: steps_task.value
+        });
+    }
+
+    defineExpose({
+        fillForm
+    });
 </script>
 <template>
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm overflow-y-auto p-4">
@@ -129,7 +197,7 @@
                 </button>
             </div>
             <div class="p-6">
-                <form @submit.prevent="newTask" class="space-y-6">
+                <form @submit.prevent="isEdit ? updateTask() : newTask()" class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div class="md:col-span-2 space-y-5">
                             <div>
@@ -163,10 +231,7 @@
                                             class="flex-1 border border-gray-300 rounded-md p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
                                             >
                                             <option value=""></option>
-                                            <option v-for="op in props.tags_list" :key="op.id" :value="op.name">{{ op.desc }}</option>
-                                            <!-- <option value="back">Back-end</option>
-                                            <option value="front">Front-end</option>
-                                            <option value="api">API</option> -->
+                                            <option v-for="op in props.tags_list" :key="op.id" :value="op.id">{{ op.desc }}</option>
                                         </select> <!--dark:border-white/10 dark:text-white dark:placeholder:text-neutral-200 dark:autofill:shadow-autofill dark:focus:border-primary-->                                    
                                         <input
                                             v-model="color"

@@ -25,7 +25,7 @@ class Task extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class)->using(TaskTag::class)->withPivot(['task_id', 'tag_id']);
+        return $this->belongsToMany(Tag::class)->using(TagTask::class)->withPivot(['task_id', 'tag_id']);
     }
    
     public function position()

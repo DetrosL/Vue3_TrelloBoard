@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Services;
-use App\Models\{Task, Tag, Step, TaskTag};
+use App\Models\{Task, Tag, Step, TagTask};
 
 class TaskService implements TaskServiceInterface
 {
@@ -11,13 +11,15 @@ class TaskService implements TaskServiceInterface
         $createdPivots = collect();
 
         foreach ($tagIds as $tagId) {
-            $pivot = TaskTag::firstOrCreate([
+            $pivot = TagTask::firstOrCreate([
                 'task_id' => $task->id,
                 'tag_id'  => $tagId,
             ]);
 
             $createdPivots->push($pivot);
         }
+
+    // dd($createdPivots->toArray());
 
         return $createdPivots;
     }

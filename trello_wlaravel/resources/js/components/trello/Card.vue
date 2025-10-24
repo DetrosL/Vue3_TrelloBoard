@@ -10,8 +10,8 @@
     const emit = defineEmits(["edit-task"]);
 
     function openEdit(){
-        emit('edit-task', props.task.id);
-        console.log(props.task.id);
+        emit('edit-task', props.task);
+        console.log('[CARD] Clicou no card → emitindo task:', props.task);
     }
 </script>
 <template>
