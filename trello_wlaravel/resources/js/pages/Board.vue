@@ -1,32 +1,29 @@
 <script setup lang="ts">
-    import Button from '@/components/ui/button/Button.vue';
     import Heads from '@/components/trello/Heads.vue';
-    import teste from '@/components/trello/teste.vue';
     import AddEdit from '@/components/trello/AddEdit.vue';
     import AddPosition from '@/components/trello/AddPosition.vue';
     import ButtonCol from '@/components/trello/ButtonCol.vue';
     import Card from '@/components/trello/Card.vue';
     import App from '@/layouts/App.vue';
-    import { ref, computed, provide } from 'vue';
-    import { create as createP }  from '@/routes/position';
-    import { create as createT }  from '@/routes/task';
-    import { edit, create as createTask }  from '@/routes/task';
-    import { Link } from '@inertiajs/vue3';
-    import { defineProps } from 'vue';
+    import { ref, computed, defineProps } from 'vue';
+    import { router } from '@inertiajs/vue3';
     import Footer from '@/components/trello/Footer.vue';
     import draggable from 'vuedraggable';
-    import type { Task, Position } from '@/types/models'
+    import type { Task, Position, Tag } from '@/types/models'
 
     const props = defineProps<{
         title: string;
         positions: Position[];
         tasks: Task[];
+        tags: Tag[];
     }>();
 
     const list_cols = ref(props.positions.map(pos => ({
         ...pos,
         tasks: Array.isArray(pos.tasks) ? pos.tasks : []
     })));
+
+    const list_tags = ref(props.tags);
 
     const columns = computed(() => {
         return list_cols.value.map(col => ({
@@ -76,7 +73,7 @@
         <div class="trello-board">
             <Heads @add-task="openAdd" @close="closeTask"/>
             <div class="flex overflow-x-auto">
-                <div v-for="column in list_cols" :key="column.id" class="trello-column">
+                <div v-for="column in list_cols" :key="column.id" class="trello-column overflow-y-auto">
                     <div class="trello-header-col">
                         <h1 class="trello-title-col">{{ column.desc }}</h1>
                         <h4 class="trello-qt-col">{{ column.tasks.length }}</h4>
@@ -96,8 +93,8 @@
                 </div>
                 <ButtonCol @add-col="openCol"/>
             </div>
-            <AddPosition v-if="ShowCol" @close="closeCol"/>
-            <AddEdit v-if="ShowTask" @close="closeTask"/>
+            <AddPosition v-if="ShowCol" @close="closeCol"/> 
+            <AddEdit v-if="ShowTask" @close="closeTask" :tags_list="list_tags" />
             <Footer />
         </div>
     </App>

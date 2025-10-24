@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Board;
 
 use App\Http\Controllers\Controller;
-use App\Models\{User, Position, Board, Task};
+use App\Models\{ Position, Tag};
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,8 +16,9 @@ class BoardController extends Controller
 {   
     public function index(Request $request)
     {
-        $user = $request->user();                                                   //
-        $board = $user->boards()->with('positions.tasks', 'positions.tasks.steps', 'positions.tasks.tags', 'positions.tasks.attaches', 'positions.tasks.comments')->get()->first();
+        $user   = $request->user();                                                   //
+        $board  = $user->boards()->with('positions.tasks', 'positions.tasks.steps', 'positions.tasks.tags', 'positions.tasks.attaches', 'positions.tasks.comments')->get()->first();
+        $tags   = Tag::all();
 
         if (!$board) {
             return Inertia::render('Board', [
@@ -31,6 +32,7 @@ class BoardController extends Controller
                 'title' => $board->title,
                 'positions' => $board->positions->toArray(),
                 'tasks' => $board->positions->flatMap->tasks->toArray(),
+                'tag' => $tags,
             ]);
     }
 
@@ -49,8 +51,7 @@ class BoardController extends Controller
         ]);
 
         Position::create($data);
-        //  return redirect()->route('board.index');
-        // return response()->json($position, 201);
+        return redirect()->route('board.index'); 
     }
 
     public function destroy(string $id)
@@ -60,12 +61,8 @@ class BoardController extends Controller
     }
 
     public function list(Request $request){
-        // try {
             $user = $request->user();
             $board = $user->boards()->with('positions.tasks', 'positions.tasks.steps', 'positions.tasks.attaches', 'positions.tasks.comments')->get();
-        // } catch (\Throwable $th) {
-        //    return response()->json($th->getMessage(), 400);
-        // }
         return response()->json($board);
     }
 }

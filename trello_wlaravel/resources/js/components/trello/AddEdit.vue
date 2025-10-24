@@ -1,13 +1,17 @@
-<script setup>
+<script setup lang="ts">
     import TaskController from '@/actions/App/Http/Controllers/Board/TaskController';
     import { ref, inject, defineProps, watch } from 'vue'
     import { index } from '@/routes/board';
     import {onClickOutside} from '@vueuse/core'
     import { Form, usePage } from '@inertiajs/vue3';
+    import type { Tag, Step, Comment, Attach } from '@/types/models'
     import { router } from '@inertiajs/vue3';
     
-    const steps_task    = ref([]);
-    const tags_task     = ref([]);
+    const steps_task    = ref<Step[]>([]);
+    const tags_task     = ref<Tag[]>([]);
+    const tags_back     = ref<{ id: number }[]>([]);
+    const comments_task = ref<Comment[]>([]);
+    const attach_task   = ref<Attach[]>([]);
     const tag           = ref('');
     const color         = ref('');
     const list_task     = inject('list_task');
@@ -15,41 +19,58 @@
     const completed_step= ref(false);
     const title_task    = ref('');
     const desc_task     = ref('');
-    const comments_task = ref([]);
-    const attach_task   = ref([]);
 
     const emit = defineEmits(['close']);
 
     function closeModal() {
         emit('close');
     }
+    
+    const props = defineProps<{
+        tags_list: Tag[]
+    }>();
 
-    async function addTag(){      
-        const idX = tags_task.value.length;
+    const isEdit = ref(false);
+
+    async function addTag(){
+        const selectedTag = props.tags_list.find(op => op.name === tag.value);
+        if (!selectedTag) {
+            console.warn('Tag not found');
+            return;
+        }
 
         tags_task.value.push({
-            id: idX,
-            title: tag.value,
-            desc: "teste_desc_tag", // tag.value.innerHTML
+            id: tags_task.value.length,
+            user_id: 1,
+            task_id: 0,
+            name: selectedTag.name,
+            desc: selectedTag.desc,
             color: color.value,
         });
 
-        console.log(tags_task);
+        
+        // pegar o value da tags q já existem e armazena em um array, para usar no salvar da task... colocando o task_id e o tag_id em uma tabela intermediaria
+        //  esse eu n quero fazer com tipagem, só um array de id com base no value da tag escolhida...
+        tags_back.value.push({
+            id: selectedTag.id,
+        })
 
         tag.value = '';
-        color.value = '#000000';
     }
 
-    function delTag(tag) {
+    function delTag(tag: Tag) {
         tags_task.value = tags_task.value.filter(t => t.id !== tag.id)
     }
+
 
     function addStep(){
         const idX = steps_task.value.length;
 
         steps_task.value.push({
             id: idX,
-            title: title_step.value,
+            user_id: 1,
+            task_id: 0,
+            desc: title_step.value,
             completed: completed_step.value,
         });
 
@@ -71,8 +92,8 @@
                 desc: desc_task.value,
                 dt_start: new Date().toISOString().split('T')[0],
                 dt_end: null,
-                tags_task: tags_task.value,
-                steps_task: steps_task.value
+                steps_task: steps_task.value,
+                tags_task: tags_back.value,
             }, {
                 onSuccess: (page) => {
                     console.log('Task created', page)
@@ -107,16 +128,7 @@
                     <span class="material-icons text-xl">close</span>
                 </button>
             </div>
-
             <div class="p-6">
-                <!-- <Form
-                    v-bind="TaskController.store.form()"
-                    class="space-y-6"
-                    v-slot="{ errors, processing, recentlySuccessful }">
-                    
-                    
-                </Form> -->
-
                 <form @submit.prevent="newTask" class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div class="md:col-span-2 space-y-5">
@@ -151,9 +163,10 @@
                                             class="flex-1 border border-gray-300 rounded-md p-2.5 text-sm focus:ring-blue-500 focus:border-blue-500"
                                             >
                                             <option value=""></option>
-                                            <option value="back">Back-end</option>
+                                            <option v-for="op in props.tags_list" :key="op.id" :value="op.name">{{ op.desc }}</option>
+                                            <!-- <option value="back">Back-end</option>
                                             <option value="front">Front-end</option>
-                                            <option value="api">API</option>
+                                            <option value="api">API</option> -->
                                         </select> <!--dark:border-white/10 dark:text-white dark:placeholder:text-neutral-200 dark:autofill:shadow-autofill dark:focus:border-primary-->                                    
                                         <input
                                             v-model="color"
@@ -214,9 +227,9 @@
                                     <input
                                         type="checkbox"
                                         :checked="step.completed"
-                                        :id="step.id"
+                                        :id="`${step.id}`"
                                         class="accent-blue-600"/>
-                                    <label :for="step.id">{{ step.title }}</label>
+                                        <label :for="`${step.id}`">{{ step.desc }}</label>
                                 </div>
                             </div>
                         </div>

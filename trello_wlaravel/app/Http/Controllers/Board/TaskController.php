@@ -37,7 +37,6 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
-    
         $data_task = $request->validate([
             'position_id' => 'required|exists:positions,id',
             'creator_id' => 'required|exists:users,id',
@@ -46,63 +45,31 @@ class TaskController extends Controller
             'desc' => 'nullable|string|max:255',
             'dt_start' => 'required|date',
             'dt_end' => 'nullable|date|after_or_equal:dt_start',
+            // steps
             'steps_task' => 'sometimes|array',
-            'tags_task' => 'sometimes|array',
-        
+            'steps_task.*.user_id' => 'required|integer|max:11',
+            'steps_task.*.desc' => 'nullable|string|max:255',
+            'steps_task.*.completed' => 'required|boolean',
+            // tag
+            'tags_back' => 'sometimes|array',
+            'tags_back.*.id' => 'nullable|integer|max:11',
         ]);
-        // print_r($data_task);
-        try {
-            $tags = $data_task['tags_task'] ? $data_task['tags_task'] : [];
-            $steps = $data_task['steps_task'] ? $data_task['steps_task'] : [];
-            $stepObjectList = [];
-            $tagObjectList = [];
-    
-            foreach( $steps as $step ){
-                $stepObjectList[] = new Step($step);
-    
-            }
-             foreach( $tags as $tag ){
-                $tagObjectList[] = new Tag($tag);
-    
-            }
-            
-            //code...
-        } catch (\Throwable $th) {
-            return response()->json($th->getMessage(), 400);
+
+        $task = Task::create($data_task);
+
+        if (!empty($data_task['steps_task'])) {
+            $this->taskService->createStep($task, $data_task['steps_task']);
         }
-        // print_r($steps);
-        // printf('--------------------------------------------');
-        // print_r($tags);
-        // printf('--------------------------------------------');
 
-        print_r($stepObjectList);
-        print_r($tagObjectList);
-        $task = new Task($data_task);
-
-        dd("morta com farofa");
-
-        // $task = Task::create($data_task);
-
-        //foreach ...
-            // valida
-            // salva
-        // salvar só o id da tag dentro do tag_task
-
-        // $data_step = $request->validate([
-        //     'task_id' => 'required|string|max:255', //id do q acabou de ser criado
-        //     'steps_task.*.title' => 'required|string|max:255',
-        //     'steps_task.*.completed' => 'required|string|max:255',
-        // ]);
-        
-        // dd($data_tag);
-        // $tag = Tag::create($data_tag);
-        // $step = Step::create($data_step);
+        if (!empty($data_task['tags_back'])) {
+            $this->taskService->createTag($task, $data_task['tags_back']);
+        }
     
+        print_r($task);
+
         return response()->json([
             'message' => 'Task created',
-            'task' => $task,
-            // 'tags' => $tag,
-            // 'steps' => $step,
+            'task' => $task->load(['steps', 'tags']),
         ], 201);
     }
 

@@ -5,7 +5,6 @@ use App\Models\{Task, Tag, Step};
 
 interface TaskServiceInterface
 {
-    public function createTask(Task $task): bool;
-    public function createTag(Tag $tag): bool;
-    public function createStep(Step $step): bool;
+    public function createTag(Task $task, array $tag): object;
+    public function createStep(Task $task, array $step): object;
 }

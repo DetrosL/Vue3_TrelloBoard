@@ -3,6 +3,7 @@ export interface Tag {
     user_id: number;
     task_id: number;
     name: string;
+    desc: string;
     color: string;
 }
 

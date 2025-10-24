@@ -1,23 +1,34 @@
 <?php
 
 namespace App\Services;
-use App\Models\{Task, Tag, Step};
+use App\Models\{Task, Tag, Step, TaskTag};
 
 class TaskService implements TaskServiceInterface
 {
-    public function createTask(Task $task): bool{
-        
+    public function createTag(Task $task, array $tags): object
+    {
+        $tagIds = collect($tags)->pluck('id')->filter()->toArray();
+        $createdPivots = collect();
 
-        return true;
-    }
-    public function createTag(Tag $tag): bool{
-        //
-        
-        return true;
-    }
-    public function createStep(Step $step): bool{
-        // 
-        return true;
+        foreach ($tagIds as $tagId) {
+            $pivot = TaskTag::firstOrCreate([
+                'task_id' => $task->id,
+                'tag_id'  => $tagId,
+            ]);
+
+            $createdPivots->push($pivot);
+        }
+
+        return $createdPivots;
     }
 
+    public function createStep(Task $task, array $steps): object
+    {
+        foreach ($steps as $stepData) {
+            $stepData['task_id'] = $task->id;
+            $stepCreated = Step::create($stepData);
+        }
+
+        return $stepCreated;
+    }
 }

@@ -1,18 +1,9 @@
 <script setup lang="ts">
-    import AppLayout from '@/layouts/AppLayout.vue';
-    import { create }  from '@/routes/position';
-    import {type BreadcrumbItem} from '@/types';
-    import { Head, router } from '@inertiajs/vue3';
-    import { defineProps } from 'vue';
-
-    import { ref, inject } from 'vue'
+    import { router } from '@inertiajs/vue3';
+    import { ref } from 'vue'
 
     const position_col  = ref('');
     const title_col     = ref('');
-    
-    // const props = defineProps<{
-    //     title: string,
-    // }>();  
 
     const emit = defineEmits(['close']);
 
@@ -29,9 +20,11 @@
                 status: "A"
             }, {
                 onSuccess: (page) => {
-                    console.log('col created', page)
+                    console.log('col created', page);
                     position_col.value = '';
                     title_col.value = '';
+                    router.reload();
+                    closeModal();
                 },
                 onError: (errors) => {
                     console.error('Error col:', errors)
